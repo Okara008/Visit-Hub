@@ -1,0 +1,178 @@
+/* --- Container and Headings --- */
+.manage-users-container {
+    padding: 30px;
+    background-color: #f8f9fa;
+    min-height: 100vh;
+
+    height: fit-content;
+    width: calc(100% - 16rem);
+  margin-left: 15rem;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  margin-top: 6rem;
+  border-radius: 20px;
+  background: #fff;
+}
+
+.users-page-heading {
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 25px;
+}
+
+/* --- Action Buttons (Top Bar) --- */
+.users-actions-bar {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+/* --- Filter, Search, and View Actions --- */
+.filter-and-search-area {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+    display: grid;
+    grid-template-columns: 2fr 1.5fr 1fr;
+    gap: 20px;
+    align-items: flex-end;
+}
+
+.filter-box, .search-box {
+    display: flex;
+    flex-direction: column;
+}
+
+.filter-box label, .search-box label {
+    font-size: 12px;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+.search-input, .filter-select {
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.view-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.icon-btn {
+    background: none;
+    border: 1px solid #ddd;
+    color: #6c757d;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.icon-btn:hover {
+    background-color: #eee;
+}
+
+/* --- Users Table --- */
+.users-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.users-table thead {
+    border-bottom: 2px solid #007bff;
+    background-color: #eef;
+    padding: 12px 15px;
+    text-align: left;
+    color: #333;
+    font-size: 14px;
+    font-weight: 600;
+}
+th{
+
+    padding: 2rem;
+}
+.table-checkbox-header {
+    width: 30px;
+}
+
+.table-actions-header {
+    width: 100px;
+    text-align: center;
+}
+
+.table-td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+    color: #555;
+}
+
+.table-checkbox-cell {
+    text-align: center;
+}
+
+.table-actions-cell {
+    text-align: center;
+}
+
+.table-email-cell {
+    text-decoration: underline;
+    color: #007bff;
+}
+
+.action-arrow {
+    font-weight: bold;
+    color: #aaa;
+    cursor: pointer;
+    padding: 0 5px;
+}
+
+.no-data-message {
+    text-align: center;
+    font-style: italic;
+    color: #999;
+    padding: 30px;
+}
+
+/* --- Pagination --- */
+.pagination-dots {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 24px;
+    color: #ccc;
+    letter-spacing: 5px;
+}
+.dot-fade-1 { opacity: 0.5; }
+.dot-fade-2 { opacity: 0.2; }
