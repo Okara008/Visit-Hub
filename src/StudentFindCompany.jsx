@@ -78,7 +78,7 @@ function FindCompany() {
                 <p><strong>Location:</strong> {company.location}</p>
                 <p><strong>Email:</strong> {company.email}</p>
               </div>
-              <a href="/UserPrepareRequest" className="request-btn">Request Visit</a>
+              <a href="/StudentPrepareRequest" className="request-btn">Request Visit</a>
             </div>
           ))}
         </div>
