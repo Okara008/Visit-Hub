@@ -1,0 +1,163 @@
+.student-visits {
+  width: calc(100% - 16rem);
+  background: #fff;
+  padding: 2rem;
+  margin-left: 15rem;
+  margin-top: 6rem;
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);}
+
+.student-visits .container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.student-visits .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.student-visits h1 {
+  color: #2c3e50;
+  font-size: 28px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.student-visits .btn-new {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.student-visits .btn-new:hover {
+  background: #218838;
+}
+
+.student-visits .table-section {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+.student-visits table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.student-visits th {
+  background: #f8f9fa;
+  padding: 15px 12px;
+  text-align: left;
+  font-weight: 600;
+  color: #495057;
+  border-bottom: 2px solid #dee2e6;
+  font-size: 14px;
+}
+
+.student-visits td {
+  padding: 15px 12px;
+  border-bottom: 1px solid #e9ecef;
+  font-size: 14px;
+}
+
+.student-visits tr:last-child td {
+  border-bottom: none;
+}
+
+.student-visits tr:hover {
+  background: #f8f9fa;
+}
+
+.student-visits .status {
+  padding: 6px 12px;
+  border-radius: 15px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.student-visits .status-pending {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.student-visits .status-approved {
+  background: #d1ecf1;
+  color: #0c5460;
+}
+
+.student-visits .status-completed {
+  background: #d4edda;
+  color: #155724;
+}
+
+.student-visits .status-cancelled {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.student-visits .btn-cancel {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.student-visits .btn-cancel:hover {
+  background: #c82333;
+}
+
+.student-visits .cancelled-text {
+  color: #6c757d;
+  font-size: 12px;
+  font-style: italic;
+}
+
+.student-visits .completed-text {
+  color: #28a745;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.student-visits .loading {
+  text-align: center;
+  padding: 40px;
+  color: #6c757d;
+  font-size: 16px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .student-visits {
+    padding: 10px;
+  }
+  
+  .student-visits .header {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+  
+  .student-visits .table-section {
+    overflow-x: auto;
+  }
+  
+  .student-visits table {
+    min-width: 700px;
+  }
+}

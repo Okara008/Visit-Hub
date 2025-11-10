@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import "./Navbar.css";
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHouse, faEnvelope , faBook, faBuilding, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faHouse, faEnvelope , faBook, faBuilding, faUser, faList } from '@fortawesome/free-solid-svg-icons';
 
 
 function Navbar(props) {
@@ -30,6 +30,9 @@ function Navbar(props) {
         </a>
         <a className="menuLists" href="/CompanyInstitution">
 			<FontAwesomeIcon icon={faBuilding}/> <span>Institution List</span>
+        </a>
+        <a className="menuLists" href="/CompanyVisitManagement">
+			<FontAwesomeIcon icon={faList}/> <span>Visit Requests</span>
         </a>
         
 

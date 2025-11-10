@@ -27,8 +27,8 @@ function Navbar(props) {
         <a className="menuLists" href="/StudentEditProfile">
            <FontAwesomeIcon icon={faUser} /> <span>Profile</span>
         </a>
-        <a className="menuLists" href="/StudentPrevVisits">
-           <FontAwesomeIcon icon={faMapLocationDot} /> <span>Previous Visits</span>
+        <a className="menuLists" href="/StudentVisitsManagement">
+           <FontAwesomeIcon icon={faMapLocationDot} /> <span>Visits History</span>
         </a>
         <a className="menuLists" href="/StudentFeedback">
            <FontAwesomeIcon icon={faComment} /> <span>Feedback</span>

@@ -1,0 +1,162 @@
+.company-visit {
+  width: calc(100% - 16rem);
+  background: #fff;
+  padding: 2rem;
+  margin-left: 15rem;
+  margin-top: 6rem;
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);}
+
+.company-visit .container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.company-visit .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #ddd;
+}
+
+.company-visit h1 {
+  color: #333;
+  font-size: 24px;
+  margin: 0;
+}
+
+.company-visit .stats {
+  color: #666;
+  font-size: 14px;
+}
+
+.company-visit .table-container {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.company-visit table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.company-visit th {
+  background: #f8f9fa;
+  padding: 12px;
+  text-align: left;
+  font-weight: 600;
+  color: #333;
+  border-bottom: 1px solid #dee2e6;
+  font-size: 14px;
+}
+
+.company-visit td {
+  padding: 12px;
+  border-bottom: 1px solid #dee2e6;
+  font-size: 14px;
+}
+
+.company-visit tr:last-child td {
+  border-bottom: none;
+}
+
+.company-visit tr:hover {
+  background: #f8f9fa;
+}
+
+.company-visit .status {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.company-visit .status.pending {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.company-visit .status.approved {
+  background: #d4edda;
+  color: #155724;
+}
+
+.company-visit .status.completed {
+  background: #d1ecf1;
+  color: #0c5460;
+}
+
+.company-visit .status.rejected {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.company-visit .actions {
+  display: flex;
+  gap: 8px;
+}
+
+.company-visit .approve {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.company-visit .approve:hover {
+  background: #218838;
+}
+
+.company-visit .reject {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.company-visit .reject:hover {
+  background: #c82333;
+}
+
+.company-visit .final-status {
+  color: #666;
+  font-size: 12px;
+  text-transform: capitalize;
+}
+
+.company-visit .loading {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .company-visit {
+    padding: 10px;
+  }
+  
+  .company-visit .table-container {
+    overflow-x: auto;
+  }
+  
+  .company-visit table {
+    min-width: 800px;
+  }
+  
+  .company-visit .actions {
+    flex-direction: column;
+    gap: 4px;
+  }
+}
