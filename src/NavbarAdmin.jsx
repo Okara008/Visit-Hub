@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import "./Navbar.css";
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHouse, faEnvelope , faBook, faBuilding, faUser, faList  } from '@fortawesome/free-solid-svg-icons';
+import { faHouse, faEnvelope , faBook, faBuilding, faUser, faList, faComment } from '@fortawesome/free-solid-svg-icons';
 
 
 function Navbar(props) {
@@ -26,9 +26,17 @@ function Navbar(props) {
           <FontAwesomeIcon icon={faBuilding}/> <span>Company List</span>
         </a>
         <a className="menuLists" href="/AdminReport">
-          <FontAwesomeIcon icon={faBook}>📖</FontAwesomeIcon>  <span>Report</span>  
+          <FontAwesomeIcon icon={faBook}/>  <span>Report</span>  
         </a>
-
+        <a className="menuLists" href="/AdminStudentRequest">
+          <FontAwesomeIcon icon={faEnvelope}/>  <span>Visit Requests</span>  
+        </a>
+        <a className="menuLists" href="/AdminProfile">
+          <FontAwesomeIcon icon={faUser}/>  <span>Profile</span>  
+        </a>
+        <a className="menuLists" href="/AdminFeedback">
+           <FontAwesomeIcon icon={faComment} /> <span>Feedback</span>
+        </a>
       </div>
     </div>
   );

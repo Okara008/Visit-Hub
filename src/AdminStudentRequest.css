@@ -1,0 +1,74 @@
+.manage-visits-container {
+      width: calc(100% - 16rem);
+  background: #fff;
+  padding: 2rem;
+  margin-left: 15rem;
+  margin-top: 6rem;
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.visits-page-heading {
+    color: #333;
+    margin: 0;
+}
+
+.visits-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.visits-table th,
+.visits-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.visits-table th {
+    background: #f8f9fa;
+    font-weight: 600;
+    color: #333;
+}
+
+.status {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+.status.pending {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.status.approved {
+    background: #d4edda;
+    color: #155724;
+}
+
+.status.rejected {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.no-data-message {
+    text-align: center;
+    color: #666;
+    font-style: italic;
+}
+
+section{
+    overflow: auto;
+}
+
+    .visits-table {
+        overflow-x: auto;
+        display: block;
+    }

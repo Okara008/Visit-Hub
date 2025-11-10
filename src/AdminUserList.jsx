@@ -1,9 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
-// Assuming you import the CSS file in your main component file:
 import './AdminUserList.css'; 
 import Navbar from './NavbarAdmin';
 
-// --- Mock Data for User List ---
 const mockUserList = [
     { id: 1, fullName: 'Jane Doe', emailAddress: 'jane.doe@example.com', matNumber: "21/2182", department: 'Software Engineering', phoneNumber: '08028372432' },
     { id: 2, fullName: 'Jane Crith', emailAddress: 'jane.crith@example.com', matNumber: "21/9208", department: 'Electrical Engineering', phoneNumber: '08028341243' },
@@ -17,49 +15,49 @@ const AdminUserList = () => {
     const [userList, setUserList] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
-
-    // 1. DATA FETCHING LOGIC with Fallback
-    const fetchUsers = async () => {
-        setLoading(true);
-        let fetchedData = null;
-
-        try {
-            // 🎯 Replace 'YOUR_DJANGO_USER_LIST_ENDPOINT' with your actual link
-            const djangoApiEndpoint = 'YOUR_DJANGO_USER_LIST_ENDPOINT'; 
-            
-            // --- Simulated Fetch ---
-            const response = await new Promise(resolve => //setTimeout(() => {
-                resolve({ 
-                    ok: true, 
-                    json: () => Promise.resolve(mockUserList) // Simulate a successful fetch 
-                })
-            // }, 800)
-        ); 
-
-            if (response.ok) {
-                fetchedData = await response.json();
-            } else {
-                 throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-        } catch (error) {
-            console.error("Error fetching user data from API. Using mock data:", error);
-            // fetchedData remains null, triggering the fallback below.
-        } 
-        
-        // Use fetchedData OR mockUserList
-        setUserList(fetchedData || mockUserList);
-        setLoading(false);
-    };
+    const [showForm, setShowForm] = useState(false);
+    const [formData, setFormData] = useState({ 
+        fullName: '', 
+        emailAddress: '', 
+        matNumber: '', 
+        department: '', 
+        phoneNumber: '' 
+    });
 
     useEffect(() => {
         fetchUsers();
     }, []);
 
-    // 2. Filtering Logic (Handles Search)
+    const fetchUsers = async () => {
+        setLoading(true);
+        try {
+            await new Promise(resolve => setTimeout(resolve, 500));
+            setUserList(mockUserList);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+            setUserList(mockUserList);
+        }
+        setLoading(false);
+    };
+
+    const handleDelete = (id) => {
+        if (window.confirm("Delete this user?")) {
+            setUserList(userList.filter(user => user.id !== id));
+        }
+    };
+
+    const handleAdd = () => {
+        if (!formData.fullName || !formData.emailAddress) {
+            alert("Please fill required fields");
+            return;
+        }
+        setUserList([...userList, { id: userList.length + 1, ...formData }]);
+        setFormData({ fullName: '', emailAddress: '', matNumber: '', department: '', phoneNumber: '' });
+        setShowForm(false);
+    };
+
     const filteredUsers = useMemo(() => {
         if (!searchQuery) return userList;
-
         const lowerCaseQuery = searchQuery.toLowerCase();
         return userList.filter(user => 
             user.fullName.toLowerCase().includes(lowerCaseQuery) ||
@@ -70,12 +68,37 @@ const AdminUserList = () => {
         );
     }, [userList, searchQuery]);
 
-    // 3. RENDERING
     return (<>
         <Navbar index="1" person="admin"/>
         <div className="manage-users-container">
-            <h1 className="users-page-heading">Manage Users</h1>
-            
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+                <h1 className="users-page-heading">Manage Users</h1>
+                <button onClick={() => setShowForm(true)} style={{ background: '#28a745', color: 'white', border: 'none', padding: '10px 20px', borderRadius: '5px', cursor: 'pointer' }}>
+                    + Add User
+                </button>
+            </div>
+
+            {showForm && (
+                <div style={{ background: '#f8f9fa', padding: '20px', borderRadius: '8px', marginBottom: '20px' }}>
+                    <h3 style={{ marginTop: 0 }}>Add New User</h3>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '15px' }}>
+                        <input type="text" placeholder="Full Name" value={formData.fullName} onChange={e => setFormData({...formData, fullName: e.target.value})} style={{ padding: '8px' }} />
+                        <input type="email" placeholder="Email Address" value={formData.emailAddress} onChange={e => setFormData({...formData, emailAddress: e.target.value})} style={{ padding: '8px' }} />
+                        <input type="text" placeholder="Matric Number" value={formData.matNumber} onChange={e => setFormData({...formData, matNumber: e.target.value})} style={{ padding: '8px' }} />
+                        <input type="text" placeholder="Department" value={formData.department} onChange={e => setFormData({...formData, department: e.target.value})} style={{ padding: '8px' }} />
+                        <input type="text" placeholder="Phone Number" value={formData.phoneNumber} onChange={e => setFormData({...formData, phoneNumber: e.target.value})} style={{ padding: '8px' }} />
+                    </div>
+                    <div style={{ display: 'flex', gap: '10px' }}>
+                        <button onClick={handleAdd} style={{ background: '#28a745', color: 'white', border: 'none', padding: '8px 16px', borderRadius: '4px', cursor: 'pointer' }}>
+                            Save
+                        </button>
+                        <button onClick={() => setShowForm(false)} style={{ background: '#6c757d', color: 'white', border: 'none', padding: '8px 16px', borderRadius: '4px', cursor: 'pointer' }}>
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            )}
+
             <div className="filter-and-search-area">
                 <div className="search-box">
                     <label>Search by Name/Email</label>
@@ -89,7 +112,6 @@ const AdminUserList = () => {
                 </div>
             </div>
 
-            {/* User List Table */}
             {loading ? (
                 <p>Loading user list...</p>
             ) : (
@@ -103,25 +125,29 @@ const AdminUserList = () => {
                                 <th className="table-th">Matric Number</th>
                                 <th className="table-th">Department</th>
                                 <th className="table-th">Phone Number</th>
+                                <th className="table-th">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             {filteredUsers.length > 0 ? (
                                 filteredUsers.map((user) => (
                                     <tr key={user.id}>
-                                        <td className="table-checkbox-cell">
-                                            {user.id}
-                                        </td>
+                                        <td className="table-checkbox-cell">{user.id}</td>
                                         <td className="table-td">{user.fullName}</td>
                                         <td className="table-td table-email-cell">{user.emailAddress}</td>
                                         <td className="table-td">{user.matNumber}</td>
                                         <td className="table-td">{user.department}</td>
                                         <td className="table-td">{user.phoneNumber}</td>
+                                        <td className="table-td">
+                                            <button onClick={() => handleDelete(user.id)} style={{ background: '#dc3545', color: 'white', border: 'none', padding: '6px 12px', borderRadius: '4px', cursor: 'pointer' }}>
+                                                Delete
+                                            </button>
+                                        </td>
                                     </tr>
                                 ))
                             ) : (
                                 <tr>
-                                    <td colSpan="4" className="table-td no-data-message">
+                                    <td colSpan="7" className="table-td no-data-message">
                                         No users found matching the search criteria.
                                     </td>
                                 </tr>
@@ -130,12 +156,6 @@ const AdminUserList = () => {
                     </table>
                 </section>
             )}
-             <div className="pagination-dots">
-                <span>•</span>
-                <span>•</span>
-                <span className="dot-fade-1">•</span>
-                <span className="dot-fade-2">•</span>
-            </div>
         </div>
     </>);
 };

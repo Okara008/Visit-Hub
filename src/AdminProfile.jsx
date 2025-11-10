@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from "react";
-import "./AdminProfile.css";
+// import "./StudentEditProfile.css";
 import Navbar from './NavbarAdmin.jsx'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHouse, faEnvelope , faBook, faBuilding, faUser, faList  } from '@fortawesome/free-solid-svg-icons';
 
-function CompanyProfile() {
+
+function AdminProfile() {
   const [isEditing, setIsEditing] = useState(false);
   const [profileData, setProfileData] = useState({
-    companyName: "",
-    lineOfBusiness: "",
-    location: "",
+    fullName: "",
+    userName: "",
+    institution: "",
     email: "",
     phone: "",
-    maxVisits: "",
+    password: "",
   });
 
   // 🧠 Fetch user profile from Django
@@ -68,13 +71,13 @@ function CompanyProfile() {
   };
 
   return (<>
-    <Navbar index="4" />
+    <Navbar index="5" />
     <div className="profile-container">
       <div className="profile-box">
 
         <div className="headContainer">
             <div className="profile-avatar">
-              <div className="avatar-circle">👤</div>
+              <FontAwesomeIcon icon={faUser} className="avatar-circle"/>
             </div>
             
             <h2>My Profile</h2>
@@ -83,42 +86,42 @@ function CompanyProfile() {
         <form className="profile-form">
           <div className="inputContainer">
               <div className="form-row">
-                <label>Company Name:</label>
+                <label>Full Name:</label>
                 <input
                   type="text"
-                  name="companyName"
-                  value={profileData.companyName}
+                  name="fullName"
+                  value={profileData.fullName}
                   onChange={handleChange}
                   disabled={!isEditing}
                 />
               </div>
 
               <div className="form-row">
-                <label>Line Of Business:</label>
+                <label>User Name:</label>
                 <input
                   type="text"
-                  name="lineOfBusiness"
-                  value={profileData.lineOfBusiness}
+                  name="userName"
+                  value={profileData.userName}
                   onChange={handleChange}
                   disabled={!isEditing}
                 />
               </div>
               <div className="form-row">
-                <label>Location:</label>
+                <label>Institution:</label>
                 <input
                   type="text"
-                  name="location"
-                  value={profileData.location}
+                  name="institution"
+                  value={profileData.institution}
                   onChange={handleChange}
                   disabled={!isEditing}
                 />
               </div>
               <div className="form-row">
-                <label>Max Visits:</label>
+                <label>Password:</label>
                 <input
-                  type="text"
-                  name="maxVisits"
-                  value={profileData.maxVisits}
+                  type="password"
+                  name="password"
+                  value={profileData.password}
                   onChange={handleChange}
                   disabled={!isEditing}
                 />
@@ -168,4 +171,4 @@ function CompanyProfile() {
   </>);
 }
 
-export default CompanyProfile;
+export default AdminProfile;

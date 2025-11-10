@@ -11,7 +11,6 @@ const CompanyVisitManagement = () => {
   const mockVisitsData = [
     {
       id: 1,
-      visit_id: 'V-001',
       institution: 'University of Technology',
       contact: 'Dr. Sarah Johnson',
       email: 's.johnson@utech.edu',
@@ -22,7 +21,6 @@ const CompanyVisitManagement = () => {
     },
     {
       id: 2,
-      visit_id: 'V-002',
       institution: 'State College',
       contact: 'Prof. Michael Chen',
       email: 'm.chen@statecollege.edu',
@@ -33,7 +31,6 @@ const CompanyVisitManagement = () => {
     },
     {
       id: 3,
-      visit_id: 'V-003',
       institution: 'Institute of Science',
       contact: 'Dr. Emily Davis',
       email: 'e.davis@scienceinstitute.edu',
@@ -44,7 +41,6 @@ const CompanyVisitManagement = () => {
     },
     {
       id: 4,
-      visit_id: 'V-004',
       institution: 'Metropolitan University',
       contact: 'Dr. Lisa Thompson',
       email: 'l.thompson@metro.edu',
@@ -109,7 +105,6 @@ const CompanyVisitManagement = () => {
           <table>
             <thead>
               <tr>
-                <th>ID</th>
                 <th>Institution</th>
                 <th>Contact</th>
                 <th>Date</th>
@@ -122,7 +117,6 @@ const CompanyVisitManagement = () => {
             <tbody>
               {visits.map(visit => (
                 <tr key={visit.id}>
-                  <td>{visit.visit_id}</td>
                   <td>{visit.institution}</td>
                   <td>{visit.contact}</td>
                   <td>{visit.visit_date}</td>

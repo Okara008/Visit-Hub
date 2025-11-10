@@ -17,6 +17,9 @@ import CompanyInstitution from './CompanyInstitution.jsx'
 import StudentFeedback from './StudentFeedback.jsx'
 import StudentVisitsManagement from './StudentVisitsManagement.jsx'
 import CompanyVisitManagement from './CompanyVisitManagement.jsx'
+import AdminStudentRequest from './AdminStudentRequest.jsx'
+import AdminProfile from './AdminProfile.jsx'
+import AdminFeedback from './AdminFeedback.jsx'
 
 function App(){
 	return(
@@ -41,6 +44,9 @@ function App(){
 				<Route path="/StudentFeedback" element={<StudentFeedback />} />
 				<Route path="/StudentVisitsManagement" element={<StudentVisitsManagement />} />
 				<Route path="/CompanyVisitManagement" element={<CompanyVisitManagement />} />
+				<Route path="/AdminStudentRequest" element={<AdminStudentRequest />} />
+				<Route path="/AdminProfile" element={<AdminProfile />} />
+				<Route path="/AdminFeedback" element={<AdminFeedback />} />
 			</Routes>
 		</Router>
 	)
