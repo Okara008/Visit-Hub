@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./StudentEditProfile.css";
+// import "./StudentEditProfile.css";
 import Navbar from './NavbarStudent.jsx'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faEnvelope , faBook, faBuilding, faUser, faList  } from '@fortawesome/free-solid-svg-icons';

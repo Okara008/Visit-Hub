@@ -70,7 +70,7 @@ function CompanyInstitution() {
 
   return (
     <>
-      <Navbar index="3" />
+      <Navbar index="2" />
       <div className="institutions-page">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
           <div>

@@ -22,17 +22,17 @@ function Navbar(props) {
         <a className="menuLists" href="/CompanyDashboard" >
           <FontAwesomeIcon icon={faHouse}/><span>Dashboard</span>
         </a>
-        <a className="menuLists" href="/CompanyProfile">
-          <FontAwesomeIcon icon={faUser}/> <span>Profile</span> 
-        </a>
-        <a className="menuLists" href="/CompanyReport">
-			<FontAwesomeIcon icon={faBook}/> <span>Report</span> 
+        <a className="menuLists" href="/CompanyVisitManagement">
+    			<FontAwesomeIcon icon={faList}/> <span>Visit Requests</span>
         </a>
         <a className="menuLists" href="/CompanyInstitution">
-			<FontAwesomeIcon icon={faBuilding}/> <span>Institution List</span>
+		    	<FontAwesomeIcon icon={faBuilding}/> <span>Institution List</span>
         </a>
-        <a className="menuLists" href="/CompanyVisitManagement">
-			<FontAwesomeIcon icon={faList}/> <span>Visit Requests</span>
+        <a className="menuLists" href="/CompanyReport">
+			    <FontAwesomeIcon icon={faBook}/> <span>Report</span> 
+        </a>
+        <a className="menuLists" href="/CompanyProfile">
+          <FontAwesomeIcon icon={faUser}/> <span>Profile</span> 
         </a>
         
 

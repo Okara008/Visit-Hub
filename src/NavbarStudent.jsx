@@ -19,7 +19,7 @@ function Navbar(props) {
            <FontAwesomeIcon icon={faHouse} /> Dashboard
         </a>
         <a className="menuLists" href="/StudentPrepareRequest">
-           <FontAwesomeIcon icon={faEnvelope} /> <span>Manage Requests</span>
+           <FontAwesomeIcon icon={faEnvelope} /> <span>Send Requests</span>
         </a>
         <a className="menuLists" href="/StudentFindCompany">
            <FontAwesomeIcon icon={faBuilding} /> <span>Find Companies</span>

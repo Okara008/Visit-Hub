@@ -28,37 +28,78 @@ function StudentDashboard() {
     fetchDashboardData();
   }, []);
 
-  return (<>
-    <Navbar index="0" person="user"/>
-    <div className="dashboard">
-      <h2 className="studenth1">Welcome, {studentName}!</h2>
+  // Count visits by status
+  const pendingVisits = visits.filter(v => v.status === "Pending").length;
+  const approvedVisits = visits.filter(v => v.status === "Approved").length;
+  const completedVisits = visits.filter(v => v.status === "Completed").length;
 
-      <h3>My Recent Visit Requests</h3>
-      <table className="visit-table">
-        <thead>
-          <tr>
-            <th>Company Name</th>
-            <th>Status</th>
-            <th>Proposed Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          {visits.map((v) => (
-            <tr key={v.id}>
-              <td>{v.company}</td>
-              <td>
-                <span className={`status ${v.status.toLowerCase()}`}>
-                  {v.status}
-                </span>
-              </td>
-              <td>{v.date}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <a className="seeMore" href="/StudentVisitsManagement">See more...</a>
-    </div>
-  </>);
+  // Get upcoming visits (pending and approved)
+  const upcomingVisits = visits.filter(v => v.status === "Completed");
+
+  return (
+    <>
+      <Navbar index="0" person="user"/>
+      <div className="dashboard">
+        <h2 className="studenth1">Welcome, {studentName}!</h2>
+
+        {/* Stats Cards */}
+        <div className="stats-cards">
+          <div className="stat-card pending">
+            <div className="stat-icon">
+              <i className="fas fa-clock"></i>
+            </div>
+            <div className="stat-content">
+              <h3>Pending Visits</h3>
+              <div className="stat-number">{pendingVisits}</div>
+            </div>
+          </div>
+
+          <div className="stat-card approved">
+            <div className="stat-icon">
+              <i className="fas fa-check-circle"></i>
+            </div>
+            <div className="stat-content">
+              <h3>Approved Visits</h3>
+              <div className="stat-number">{approvedVisits}</div>
+            </div>
+          </div>
+
+          <div className="stat-card completed">
+            <div className="stat-icon">
+              <i className="fas fa-calendar-check"></i>
+            </div>
+            <div className="stat-content">
+              <h3>Completed Visits</h3>
+              <div className="stat-number">{completedVisits}</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Upcoming Visits Section */}
+        <div className="upcoming-visits">
+          <h3 className="visitH3">Upcoming Visit</h3>
+          <div className="visit-cards">
+            {upcomingVisits.length > 0 ? (
+              upcomingVisits.map((visit) => (
+                <div key={visit.id} className={`visit-card ${visit.status.toLowerCase()}`}>
+                  <div className="visit-header">
+                    <h4>{visit.company}</h4>
+                  </div>
+                  <div className="visit-date">
+                    <i className="fas fa-calendar-alt"></i>
+                    {visit.date}
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p className="no-visits">No upcoming visits scheduled.</p>
+            )}
+          </div>
+        </div>
+
+      </div>
+    </>
+  );
 }
 
 export default StudentDashboard;

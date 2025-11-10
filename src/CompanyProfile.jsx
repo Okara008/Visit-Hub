@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./CompanyProfile.css";
+// import "./CompanyProfile.css";
 import Navbar from './NavbarCompany.jsx'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faUser} from '@fortawesome/free-solid-svg-icons';
@@ -72,7 +72,7 @@ function CompanyProfile() {
   };
 
   return (<>
-    <Navbar index="1" />
+    <Navbar index="4" />
     <div className="profile-container">
       <div className="profile-box">
 

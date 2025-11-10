@@ -20,6 +20,7 @@ import CompanyVisitManagement from './CompanyVisitManagement.jsx'
 import AdminStudentRequest from './AdminStudentRequest.jsx'
 import AdminProfile from './AdminProfile.jsx'
 import AdminFeedback from './AdminFeedback.jsx'
+import './EditProfile.css'
 
 function App(){
 	return(

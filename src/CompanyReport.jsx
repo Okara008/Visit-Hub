@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Navbar from "./NavbarCompany";
 import "./CompanyReport.css";
 import axios from "axios";
+import * as XLSX from "xlsx";
 
 function CompanyReport() {
   const [reportData, setReportData] = useState([
@@ -20,13 +21,50 @@ function CompanyReport() {
       .catch(() => console.log("Using mock report data"));
   }, []);
 
+  const exportToExcel = () => {
+    // Prepare data for Excel export using reportData
+    const excelData = reportData.map(report => ({
+      'Day of Visits': report.day,
+      'Number of Students': report.visits,
+      'Institution': report.institution
+    }));
+
+    // Create worksheet and workbook
+    const worksheet = XLSX.utils.json_to_sheet(excelData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Visit Reports');
+
+    // Generate Excel file and trigger download
+    XLSX.writeFile(workbook, `Visit_Reports_${new Date().toISOString().split('T')[0]}.xlsx`);
+  };
+
   return (
     <>
-      <Navbar index="2" />
+      <Navbar index="3" />
       <div className="company-reports">
-        <button className="printBtn" onClick={()=>window.print()}>Print</button>
-        <h2>Visit Report</h2>
-        <p>Overview of student visits recorded per day.</p>
+        <div className="report-header">
+          <div>
+            <h2>Visit Report</h2>
+            <p>Overview of student visits recorded per day.</p>
+          </div>
+                                <button 
+                    onClick={exportToExcel} 
+                    style={{ 
+                        background: '#28a745', 
+                        color: 'white', 
+                        border: 'none', 
+                        padding: '10px 20px', 
+                        borderRadius: '5px', 
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px'
+                    }}
+                >
+                    <i className="fas fa-file-excel"></i>
+                    Export to Excel
+                </button>
+        </div>
         <div className="report-table-container">
           <table className="report-table">
             <thead>

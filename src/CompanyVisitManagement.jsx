@@ -91,7 +91,7 @@ const CompanyVisitManagement = () => {
   }
 
   return (<>
-    <Navbar index="4"/>
+    <Navbar index="1"/>
     <div className="company-visit">
       <div className="container">
         <div className="header">

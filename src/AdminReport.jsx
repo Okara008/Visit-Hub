@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import './AdminReport.css'; 
 import Navbar from './NavbarAdmin';
+import * as XLSX from 'xlsx';
 
 const mockReports = [
     { id: 1, company: 'Tech Solutions', students: 25, visits: 8, status: 'Active' },
@@ -51,8 +52,22 @@ const CompanyReports = () => {
         return currentReports;
     }, [reports, statusFilter, searchQuery]);
 
-    const printReport = () => {
-        window.print();
+    const exportToExcel = () => {
+        // Prepare data for Excel export
+        const excelData = filteredReports.map(report => ({
+            'Company Name': report.company,
+            'Number of Students': report.students,
+            'Visits Completed': report.visits,
+            'Status': report.status
+        }));
+
+        // Create worksheet and workbook
+        const worksheet = XLSX.utils.json_to_sheet(excelData);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Company Reports');
+
+        // Generate Excel file and trigger download
+        XLSX.writeFile(workbook, `Company_Reports_${new Date().toISOString().split('T')[0]}.xlsx`);
     };
 
     return (<>
@@ -60,8 +75,22 @@ const CompanyReports = () => {
         <div className="reports-container">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
                 <h2 className="reports-heading">Company Visit Reports</h2>
-                <button onClick={printReport} style={{ background: '#28a745', color: 'white', border: 'none', padding: '10px 20px', borderRadius: '5px', cursor: 'pointer' }}>
-                    Print Report
+                <button 
+                    onClick={exportToExcel} 
+                    style={{ 
+                        background: '#28a745', 
+                        color: 'white', 
+                        border: 'none', 
+                        padding: '10px 20px', 
+                        borderRadius: '5px', 
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px'
+                    }}
+                >
+                    <i className="fas fa-file-excel"></i>
+                    Export to Excel
                 </button>
             </div>
 
