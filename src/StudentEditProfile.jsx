@@ -6,8 +6,11 @@ function EditProfile() {
   const [isEditing, setIsEditing] = useState(false);
   const [profileData, setProfileData] = useState({
     fullName: "",
+    userName: "",
     studentId: "",
+    matric_number: "",
     institution: "",
+    password: "",
     department: "",
     email: "",
     phone: "",
@@ -93,6 +96,16 @@ function EditProfile() {
                 />
               </div>
               <div className="form-row">
+                <label>User Name:</label>
+                <input
+                  type="text"
+                  name="userName"
+                  value={profileData.userName}
+                  onChange={handleChange}
+                  disabled={!isEditing}
+                />
+              </div>
+              <div className="form-row">
                 <label>Student ID:</label>
                 <input
                   type="text"
@@ -103,11 +116,31 @@ function EditProfile() {
                 />
               </div>
               <div className="form-row">
+                <label>Matric Number:</label>
+                <input
+                  type="text"
+                  name="matric_number"
+                  value={profileData.matric_number}
+                  onChange={handleChange}
+                  disabled={!isEditing}
+                />
+              </div>
+              <div className="form-row">
                 <label>Institution:</label>
                 <input
                   type="text"
                   name="institution"
                   value={profileData.institution}
+                  onChange={handleChange}
+                  disabled={!isEditing}
+                />
+              </div>
+              <div className="form-row">
+                <label>Password:</label>
+                <input
+                  type="password"
+                  name="password"
+                  value={profileData.password}
                   onChange={handleChange}
                   disabled={!isEditing}
                 />

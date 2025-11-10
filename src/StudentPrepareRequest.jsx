@@ -6,7 +6,6 @@ function UserPrepareRequest() {
   const [formData, setFormData] = useState({
     student_name: "",
     company: "",
-    number_of_students: 1,
     proposed_date: "",
     status: "Pending",
     purpose: "",
@@ -42,7 +41,6 @@ function UserPrepareRequest() {
         setFormData({
           student_name: "",
           company: "",
-          number_of_students: 1,
           proposed_date: "",
           status: "Pending",
           purpose: "",
@@ -105,18 +103,6 @@ function UserPrepareRequest() {
                 <option value="FarmLink Agro">FarmLink Agro</option>
               </select>
 
-          </div>
-
-          <div className="Input_Group">
-              <label>Number of Students</label>
-              <input
-                type="number"
-                name="number_of_students"
-                min="1"
-                value={formData.number_of_students}
-                onChange={handleChange}
-                required
-              />
           </div>
 
           <div className="Input_Group">

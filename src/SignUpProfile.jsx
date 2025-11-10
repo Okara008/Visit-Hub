@@ -5,6 +5,7 @@ import "./SignUpProfile.css";
 function SignUpProfile() {
   const [formData, setFormData] = useState({
     fullName: "",
+    userName: "",
     email: "",
     phone: "",
     institution: "",
@@ -20,6 +21,12 @@ function SignUpProfile() {
     
     setFormData({ ...formData, [name]: value });
   };
+
+	function deleteWhiteSpace(e){
+		if(e.key == " "){
+			e.target.value = e.target.value.substring(0, (e.target.value.length-1)).trim();
+		}
+	}
 
 const handleSubmit = async (e) => {
 	e.preventDefault();
@@ -40,6 +47,7 @@ const handleSubmit = async (e) => {
 			alert("Account created successfully!");
 			setFormData({
 				fullName: "",
+				userName: "",
 				email: "",
 				phone: "",
 				institution: "",
@@ -96,6 +104,15 @@ const handleSubmit = async (e) => {
                 placeholder="Full Name / Company Name"
                 value={formData.fullName}
                 onChange={handleChange}
+                required
+              />
+              <input
+                type="text"
+                name="userName"
+                placeholder="User Name (No whitespaces ' ')"
+                value={formData.userName}
+                onChange={handleChange}
+                onKeyUp={deleteWhiteSpace}
                 required
               />
               <input

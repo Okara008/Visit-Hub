@@ -6,8 +6,10 @@ function CompanyProfile() {
   const [isEditing, setIsEditing] = useState(false);
   const [profileData, setProfileData] = useState({
     companyName: "",
+    userName: "",
     lineOfBusiness: "",
     location: "",
+    website: "",
     email: "",
     phone: "",
     maxVisits: "",
@@ -92,6 +94,16 @@ function CompanyProfile() {
                   disabled={!isEditing}
                 />
               </div>
+              <div className="form-row">
+                <label>User Name:</label>
+                <input
+                  type="text"
+                  name="userName"
+                  value={profileData.userName}
+                  onChange={handleChange}
+                  disabled={!isEditing}
+                />
+              </div>
 
               <div className="form-row">
                 <label>Line Of Business:</label>
@@ -109,6 +121,16 @@ function CompanyProfile() {
                   type="text"
                   name="location"
                   value={profileData.location}
+                  onChange={handleChange}
+                  disabled={!isEditing}
+                />
+              </div>
+              <div className="form-row">
+                <label>Website:</label>
+                <input
+                  type="text"
+                  name="website"
+                  value={profileData.website}
                   onChange={handleChange}
                   disabled={!isEditing}
                 />

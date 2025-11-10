@@ -5,12 +5,12 @@ import Navbar from './NavbarAdmin';
 
 // --- Mock Data for User List ---
 const mockUserList = [
-    { id: 1, fullName: 'Jane Doe', emailAddress: 'jane.doe@example.com', role: 'Staff' },
-    { id: 2, fullName: 'Jane Crith', emailAddress: 'jane.crith@example.com', role: 'Student' },
-    { id: 3, fullName: 'John Smith', emailAddress: 'john.smith@example.com', role: 'Student' },
-    { id: 4, fullName: 'Emily White', emailAddress: 'emily.white@example.com', role: 'Student' },
-    { id: 5, fullName: 'Pomin White', emailAddress: 'pomin.white@example.com', role: 'Student' },
-    { id: 6, fullName: 'Admin User', emailAddress: 'admin.user@example.com', role: 'Admin' },
+    { id: 1, fullName: 'Jane Doe', emailAddress: 'jane.doe@example.com', matNumber: "21/2182", department: 'Software Engineering', phoneNumber: '08028372432' },
+    { id: 2, fullName: 'Jane Crith', emailAddress: 'jane.crith@example.com', matNumber: "21/9208", department: 'Electrical Engineering', phoneNumber: '08028341243' },
+    { id: 3, fullName: 'John Smith', emailAddress: 'john.smith@example.com', matNumber: "24/2839", department: 'Mechanical Engineering', phoneNumber: '08028333467' },
+    { id: 4, fullName: 'Emily White', emailAddress: 'emily.white@example.com', matNumber: "21/3232", department: 'Civil Engineering', phoneNumber: '08028472532' },
+    { id: 5, fullName: 'Pomin White', emailAddress: 'pomin.white@example.com', matNumber: "18/2182", department: 'Aeronotic Engineering', phoneNumber: '08028442432' },
+    { id: 6, fullName: 'Admin User', emailAddress: 'admin.user@example.com', matNumber: "20/2812", department: 'Marine Engineering', phoneNumber: '08028373948' },
 ];
 
 const AdminUserList = () => {
@@ -63,7 +63,10 @@ const AdminUserList = () => {
         const lowerCaseQuery = searchQuery.toLowerCase();
         return userList.filter(user => 
             user.fullName.toLowerCase().includes(lowerCaseQuery) ||
-            user.emailAddress.toLowerCase().includes(lowerCaseQuery)
+            user.emailAddress.toLowerCase().includes(lowerCaseQuery) ||
+            user.matNumber.toLowerCase().includes(lowerCaseQuery) ||
+            user.department.toLowerCase().includes(lowerCaseQuery) ||
+            user.phoneNumber.toLowerCase().includes(lowerCaseQuery) 
         );
     }, [userList, searchQuery]);
 
@@ -90,35 +93,42 @@ const AdminUserList = () => {
             {loading ? (
                 <p>Loading user list...</p>
             ) : (
-                <table className="users-table">
-                    <thead>
-                        <tr>
-                            <th className="table-checkbox-header">S/N</th>
-                            <th className="table-th">Full Name</th>
-                            <th className="table-th">Email Address</th>
-                            {/* Role column is removed as requested */}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {filteredUsers.length > 0 ? (
-                            filteredUsers.map((user) => (
-                                <tr key={user.id}>
-                                    <td className="table-checkbox-cell">
-                                        {user.id}
-                                    </td>
-                                    <td className="table-td">{user.fullName}</td>
-                                    <td className="table-td table-email-cell">{user.emailAddress}</td>
-                                </tr>
-                            ))
-                        ) : (
+                <section>
+                    <table className="users-table">
+                        <thead>
                             <tr>
-                                <td colSpan="4" className="table-td no-data-message">
-                                    No users found matching the search criteria.
-                                </td>
+                                <th className="table-checkbox-header">S/N</th>
+                                <th className="table-th">Full Name</th>
+                                <th className="table-th">Email Address</th>
+                                <th className="table-th">Matric Number</th>
+                                <th className="table-th">Department</th>
+                                <th className="table-th">Phone Number</th>
                             </tr>
-                        )}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {filteredUsers.length > 0 ? (
+                                filteredUsers.map((user) => (
+                                    <tr key={user.id}>
+                                        <td className="table-checkbox-cell">
+                                            {user.id}
+                                        </td>
+                                        <td className="table-td">{user.fullName}</td>
+                                        <td className="table-td table-email-cell">{user.emailAddress}</td>
+                                        <td className="table-td">{user.matNumber}</td>
+                                        <td className="table-td">{user.department}</td>
+                                        <td className="table-td">{user.phoneNumber}</td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan="4" className="table-td no-data-message">
+                                        No users found matching the search criteria.
+                                    </td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                </section>
             )}
              <div className="pagination-dots">
                 <span>•</span>

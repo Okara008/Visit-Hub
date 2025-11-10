@@ -1,16 +1,15 @@
 .dashboard-content-area-new {
     min-height: 100vh;
     flex-grow: 1; 
-
-      padding: 2rem;
-  height: fit-content;
+    padding: 2rem;
+    height: fit-content;
     width: calc(100% - 16rem);
-  margin-left: 15rem;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-  padding: 2rem;
-  margin-top: 6rem;
-  border-radius: 20px;
-  background: #fff;
+    margin-left: 15rem;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    margin-top: 6rem;
+    border-radius: 20px;
+    background: #fff;
 }
 
 /* --- Welcome Header (Full Width) --- */

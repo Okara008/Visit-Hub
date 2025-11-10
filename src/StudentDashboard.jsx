@@ -31,12 +31,7 @@ function StudentDashboard() {
   return (<>
     <Navbar index="0" person="user"/>
     <div className="dashboard">
-      <h2>Welcome, {studentName}!</h2>
-
-      {/* <div className="dashboard-buttons">
-        <button className="new-request">+ New Visit Request</button>
-        <button className="explore-btn">Explore Companies</button>
-      </div> */}
+      <h2 className="studenth1">Welcome, {studentName}!</h2>
 
       <h3>My Recent Visit Requests</h3>
       <table className="visit-table">

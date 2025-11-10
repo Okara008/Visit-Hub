@@ -8,9 +8,9 @@
   background: #fff;
 }
 
-h2 {
+.studenth1 {
   font-size: 1.8rem;
-  margin-bottom:2rem ;
+  margin-bottom:3rem ;
   color: blue;
 }
 
@@ -44,4 +44,22 @@ h2 {
   padding: 10px 15px;
   border-bottom: 1px solid #eee;
   text-align: left;
+}
+
+.pending{
+  background-color: red;
+}
+
+.approved{
+	background-color: blue;
+}
+
+.completed{
+	background-color: green;
+}
+
+.status{
+	padding: .3rem 1rem;
+	color: wheat;
+	border-radius: 0 2rem 0 0;
 }

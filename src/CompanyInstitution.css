@@ -1,0 +1,47 @@
+.institutions-page {
+  padding: 2rem;
+  background-color: #f8f9fc;
+  min-height: 100vh;
+
+    width: calc(100% - 16rem);
+  margin-left: 15rem;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  margin-top: 6rem;
+  border-radius: 20px;
+  background: #fff;
+}
+
+h2 {
+  font-size: 1.8rem;
+  margin-bottom: 0.3rem;
+}
+
+p {
+  margin-bottom: 1.5rem;
+  color: #555;
+}
+
+.institution-table-container {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.institution-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.institution-table th,
+.institution-table td {
+  padding: 14px 18px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.institution-table th {
+  background: #f3f3f3;
+  font-weight: 600;
+}

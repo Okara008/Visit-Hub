@@ -26,8 +26,12 @@ function Navbar(props) {
           <FontAwesomeIcon icon={faUser}/> <span>Profile</span> 
         </a>
         <a className="menuLists" href="/CompanyReport">
-          <FontAwesomeIcon icon={faBook}/> <span>Report</span> 
+			<FontAwesomeIcon icon={faBook}/> <span>Report</span> 
         </a>
+        <a className="menuLists" href="/CompanyInstitution">
+			<FontAwesomeIcon icon={faBuilding}/> <span>Institution List</span>
+        </a>
+        
 
       </div>
     </div>

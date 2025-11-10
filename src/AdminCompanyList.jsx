@@ -9,21 +9,27 @@ const mockCompanyList = [
         id: 1, 
         companyName: 'Innovate Corp', 
         contactEmail: 'john.doe@innovate.com', 
-        website: 'innovate.com', 
-        status: 'Accepting Visits' 
+        website: 'innovate.com',
+        contactNumber: '08029318273', 
+        LineOfBusiness: 'Manufacturing', 
+        status: 'Accepting Visits'
     },
     { 
         id: 2, 
         companyName: 'Tech Solutions', 
         contactEmail: 'support@techsol.co', 
-        website: 'techsol.co', 
+        website: 'techsol.co',
+        contactNumber: '09027182716', 
+        LineOfBusiness: 'Electronics', 
         status: 'Accepting Visits' 
     },
     { 
         id: 3, 
         companyName: 'Global Industries', 
         contactEmail: 'contact@globalind.com', 
-        website: 'globalind.com', 
+        website: 'globalind.com',
+        contactNumber: '09029172615', 
+        LineOfBusiness: 'Manufacturing', 
         status: 'Not Accepting Visits' 
     },
 ];
@@ -90,36 +96,42 @@ const AdminCompanyList = () => {
                 {loading ? (
                     <p className="loading-message">Loading company list...</p>
                 ) : (
-                    <table className="companies-table">
-                        <thead>
-                            <tr>
-                                <th className="table-th">S/N</th>
-                                <th className="table-th">Company Name</th>
-                                <th className="table-th">Contact Email</th>
-                                <th className="table-th">Website</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {companyList.length > 0 ? (
-                                companyList.map((company) => (
-                                    <tr key={company.id}>
-                                        <td className="table-td ">{company.id}</td>
-                                        <td className="table-td company-name-cell">{company.companyName}</td>
-                                        <td className="table-td contact-email-cell">{company.contactEmail}</td>
-                                        <td className="table-td website-cell">
-                                            <a href={`http://${company.website}`} target="_blank" rel="noopener noreferrer">{company.website}</a>
+                    <section>
+                        <table className="companies-table">
+                            <thead>
+                                <tr>
+                                    <th className="table-th">S/N</th>
+                                    <th className="table-th">Company Name</th>
+                                    <th className="table-th">Contact Email</th>
+                                    <th className="table-th">Website</th>
+                                    <th className="table-th">Line Of Business</th>
+                                    <th className="table-th">Contact Number</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {companyList.length > 0 ? (
+                                    companyList.map((company) => (
+                                        <tr key={company.id}>
+                                            <td className="table-td ">{company.id}</td>
+                                            <td className="table-td company-name-cell">{company.companyName}</td>
+                                            <td className="table-td contact-email-cell">{company.contactEmail}</td>
+                                            <td className="table-td contact-email-cell">{company.contactNumber}</td>
+                                            <td className="table-td contact-email-cell">{company.LineOfBusiness}</td>
+                                            <td className="table-td website-cell">
+                                                <a href={`http://${company.website}`} target="_blank" rel="noopener noreferrer">{company.website}</a>
+                                            </td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan="5" className="table-td no-data-message">
+                                            No companies found.
                                         </td>
                                     </tr>
-                                ))
-                            ) : (
-                                <tr>
-                                    <td colSpan="5" className="table-td no-data-message">
-                                        No companies found.
-                                    </td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
+                                )}
+                            </tbody>
+                        </table>
+                    </section>
                 )}
             </div>
         </div>

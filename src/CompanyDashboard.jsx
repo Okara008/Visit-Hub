@@ -6,11 +6,11 @@ import Navbar from "./NavbarCompany";
 function CompanyDashboard() {
   const [companyName, setCompanyName] = useState("SkyReach Airlines");
   const [requests, setRequests] = useState([
-    { id: 1, student: "Jane Doe", date: "2024-11-15", status: "Pending" },
-    { id: 2, student: "Instiliy Smith", date: "2024-11-16", status: "Pending" },
-    { id: 3, student: "John Smith", date: "2024-11-18", status: "Approved" },
-    { id: 4, student: "Emily White", date: "2024-11-19", status: "Rejected" },
-    { id: 5, student: "Pormred", date: "2024-11-20", status: "Completed" },
+    { id: 1, institution: "University of Lagos", date: "2024-11-15", status: "Pending" },
+    { id: 2, institution: "University of Nigeria Nsukka", date: "2024-11-16", status: "Pending" },
+    { id: 3, institution: "Federal University of Technology Akure", date: "2024-11-18", status: "Approved" },
+    { id: 4, institution: "Obafemi Awolowo University", date: "2024-11-19", status: "Rejected" },
+    { id: 5, institution: "Covenant University", date: "2024-11-20", status: "Completed" },
   ]);
 
   useEffect(() => {
@@ -54,7 +54,7 @@ function CompanyDashboard() {
         <table className="request-table">
           <thead>
             <tr>
-              <th>Student Name</th>
+              <th>Institution</th>
               <th>Proposed Date</th>
               <th>Status</th>
               <th>Actions</th>
@@ -63,7 +63,7 @@ function CompanyDashboard() {
           <tbody>
             {requests.map((req) => (
               <tr key={req.id}>
-                <td>{req.student}</td>
+                <td>{req.institution}</td>
                 <td>{req.date}</td>
                 <td>{req.status}</td>
                 <td>

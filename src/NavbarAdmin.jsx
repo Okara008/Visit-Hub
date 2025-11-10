@@ -20,7 +20,7 @@ function Navbar(props) {
           <FontAwesomeIcon icon={faHouse}>🏠</FontAwesomeIcon> Dashboard
         </a>
         <a className="menuLists" href="/AdminUserList">
-          <FontAwesomeIcon icon={faList}></FontAwesomeIcon> <span>User List</span>
+          <FontAwesomeIcon icon={faList}></FontAwesomeIcon> <span>Student List</span>
         </a>
         <a className="menuLists" href="/AdminCompanyList">
           <FontAwesomeIcon icon={faBuilding}/> <span>Company List</span>

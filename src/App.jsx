@@ -13,7 +13,7 @@ import CompanyDashboard from './CompanyDashboard.jsx'
 import AdminCompanyList from './AdminCompanyList.jsx'
 import CompanyProfile from './CompanyProfile.jsx'
 import CompanyReport from './CompanyReport.jsx'
-import AdminProfile from './AdminProfile.jsx'
+import CompanyInstitution from './CompanyInstitution.jsx'
 
 function App(){
 	return(
@@ -35,7 +35,7 @@ function App(){
 				<Route path="/CompanyProfile" element={<CompanyProfile />} />
 				<Route path="/CompanyReport" element={<CompanyReport />} />
 				<Route path="/CompanyReport" element={<CompanyReport />} />
-				<Route path="/AdminProfile" element={<AdminProfile />} />
+				<Route path="/CompanyInstitution" element={<CompanyInstitution />} />
 			</Routes>
 		</Router>
 	)

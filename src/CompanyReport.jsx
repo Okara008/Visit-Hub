@@ -5,11 +5,11 @@ import axios from "axios";
 
 function CompanyReport() {
   const [reportData, setReportData] = useState([
-    { id: 1, day: "9-11-25", visits: 54 },
-    { id: 2, day: "2-11-25", visits: 33 },
-    { id: 3, day: "26-10-25", visits: 71 },
-    { id: 4, day: "19-10-25", visits: 45 },
-    { id: 5, day: "12-10-25", visits: 60 },
+    { id: 1, day: "9-11-25", visits: 54, institution: "University of Lagos" },
+    { id: 2, day: "2-11-25", visits: 33, institution: "University of Nigeria Nsukka" },
+    { id: 3, day: "26-10-25", visits: 71, institution: "Federal University of Technology Akure" },
+    { id: 4, day: "19-10-25", visits: 45, institution: "Obafemi Awolowo University" },
+    { id: 5, day: "12-10-25", visits: 60, institution: "Covenant University" },
   ]);
 
   useEffect(() => {
@@ -25,7 +25,7 @@ function CompanyReport() {
       <Navbar index="2" />
       <div className="company-reports">
         <button className="printBtn" onClick={()=>window.print()}>Print</button>
-        <h2>Weekly Visit Report</h2>
+        <h2>Visit Report</h2>
         <p>Overview of student visits recorded per day.</p>
         <div className="report-table-container">
           <table className="report-table">
@@ -41,6 +41,7 @@ function CompanyReport() {
                 <tr key={record.id}>
                   <td>{record.day}</td>
                   <td>{record.visits}</td>
+                  <td>{record.institution}</td>
                 </tr>
               ))}
             </tbody>
