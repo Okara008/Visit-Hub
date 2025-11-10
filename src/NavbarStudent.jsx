@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from "react";
 import "./Navbar.css";
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHouse, faEnvelope , faBook, faBuilding, faUser } from '@fortawesome/free-solid-svg-icons';
 
 function Navbar(props) {
 	useEffect(getList, [])
@@ -14,16 +16,16 @@ function Navbar(props) {
     <div className="sidebar">
       <div className="menu">
         <a className="menuLists" href="/StudentDashboard" >
-          <span className="icon">🏠</span> Dashboard
+           <FontAwesomeIcon icon={faHouse} /> Dashboard
         </a>
         <a className="menuLists" href="/StudentPrepareRequest">
-          <span className="icon">📨</span> <span>Manage Requests</span>
+           <FontAwesomeIcon icon={faEnvelope} /> <span>Manage Requests</span>
         </a>
         <a className="menuLists" href="/StudentFindCompany">
-          <span className="icon">🏢</span>  <span>Find Companies</span>
+           <FontAwesomeIcon icon={faBuilding} /> <span>Find Companies</span>
         </a>
         <a className="menuLists" href="/StudentEditProfile">
-          <span className="icon">👤</span> <span>Profile</span>
+           <FontAwesomeIcon icon={faUser} /> <span>Profile</span>
         </a>
 
       </div>

@@ -31,8 +31,9 @@ function CompanyReport() {
           <table className="report-table">
             <thead>
               <tr>
-                <th>Day</th>
-                <th>Number of Visits</th>
+                <th>Day of Visits</th>
+                <th>Number of Students</th>
+                <th>Institution</th>
               </tr>
             </thead>
             <tbody>
