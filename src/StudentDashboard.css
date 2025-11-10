@@ -63,3 +63,28 @@
 	color: wheat;
 	border-radius: 0 2rem 0 0;
 }
+
+.seeMore{
+  /* float: inline-end; */
+  background-color: rgb(5, 12, 105);
+  /* border: BLUE double .5rem; */
+  padding: .2rem .5rem;
+  font-style: italic;
+  color: white;
+  border-radius: 1rem ;
+  margin-top: 1rem;
+  display: block;
+  width: 10rem;
+  text-align: center;
+  text-decoration: none;
+  margin: 1rem 0 0 auto;
+}
+
+.seeMore:hover{
+  background-color: rgba(5, 12, 105, .7);
+}
+
+.seeMore:active{
+  background-color: rgba(5, 12, 105);
+  
+}

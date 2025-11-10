@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import "./Navbar.css";
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHouse, faEnvelope , faBook, faBuilding, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faHouse, faEnvelope, faMapLocationDot , faBook, faBuilding, faUser, faComment } from '@fortawesome/free-solid-svg-icons';
 
 function Navbar(props) {
 	useEffect(getList, [])
@@ -26,6 +26,12 @@ function Navbar(props) {
         </a>
         <a className="menuLists" href="/StudentEditProfile">
            <FontAwesomeIcon icon={faUser} /> <span>Profile</span>
+        </a>
+        <a className="menuLists" href="/StudentPrevVisits">
+           <FontAwesomeIcon icon={faMapLocationDot} /> <span>Previous Visits</span>
+        </a>
+        <a className="menuLists" href="/StudentFeedback">
+           <FontAwesomeIcon icon={faComment} /> <span>Feedback</span>
         </a>
 
       </div>

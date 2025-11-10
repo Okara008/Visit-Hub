@@ -1,0 +1,67 @@
+.feedback-container {
+  padding: 40px;
+  max-width: 800px;
+    width: calc(100% - 16rem);
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  padding: 40px 50px;
+  margin-left: 15rem;
+  margin-top: 6rem;
+}
+
+.feedback-container h2 {
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.feedback-container p {
+  margin-bottom: 25px;
+  color: #666;
+}
+
+.feedback-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.feedback-form label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 500;
+}
+
+.feedback-form select,
+.feedback-form textarea {
+  margin-top: 8px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  outline: none;
+}
+
+.feedback-form textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.submit-btn {
+  background-color: #0077b6;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  width: fit-content;
+}
+
+.submit-btn:hover {
+  background-color: #005f8f;
+}
+
+.success-msg {
+  color: green;
+  font-size: 18px;
+  font-weight: 500;
+}

@@ -14,6 +14,8 @@ import AdminCompanyList from './AdminCompanyList.jsx'
 import CompanyProfile from './CompanyProfile.jsx'
 import CompanyReport from './CompanyReport.jsx'
 import CompanyInstitution from './CompanyInstitution.jsx'
+import StudentPrevVisits from './StudentPrevVisits.jsx'
+import StudentFeedback from './StudentFeedback.jsx'
 
 function App(){
 	return(
@@ -34,8 +36,9 @@ function App(){
 				<Route path="/CompanyDashboard" element={<CompanyDashboard />} />
 				<Route path="/CompanyProfile" element={<CompanyProfile />} />
 				<Route path="/CompanyReport" element={<CompanyReport />} />
-				<Route path="/CompanyReport" element={<CompanyReport />} />
 				<Route path="/CompanyInstitution" element={<CompanyInstitution />} />
+				<Route path="/StudentPrevVisits" element={<StudentPrevVisits />} />
+				<Route path="/StudentFeedback" element={<StudentFeedback />} />
 			</Routes>
 		</Router>
 	)
