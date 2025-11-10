@@ -130,7 +130,7 @@ const StudentVisitsManagement = () => {
   }
 
   return (<>
-    <Navbar index="4" />
+    <Navbar index="3" />
     <div className="student-visits">
       <div className="container">
         <div className="header">

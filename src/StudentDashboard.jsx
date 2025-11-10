@@ -56,7 +56,7 @@ function StudentDashboard() {
           ))}
         </tbody>
       </table>
-      <a className="seeMore" href="/StudentPrevVisits">See more...</a>
+      <a className="seeMore" href="/StudentVisitsManagement">See more...</a>
     </div>
   </>);
 }

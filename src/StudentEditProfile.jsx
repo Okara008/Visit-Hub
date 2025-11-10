@@ -74,7 +74,7 @@ function EditProfile() {
   };
 
   return (<>
-    <Navbar index="3" person="user"/>
+    <Navbar index="4" person="user"/>
     <div className="profile-container">
       <div className="profile-box">
 
