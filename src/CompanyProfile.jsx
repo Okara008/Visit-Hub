@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./CompanyProfile.css";
 import Navbar from './NavbarCompany.jsx'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {faUser} from '@fortawesome/free-solid-svg-icons';
 
 function CompanyProfile() {
   const [isEditing, setIsEditing] = useState(false);
@@ -76,7 +78,8 @@ function CompanyProfile() {
 
         <div className="headContainer">
             <div className="profile-avatar">
-              <div className="avatar-circle">👤</div>
+              <FontAwesomeIcon icon={faUser} className="avatar-circle"/>
+
             </div>
             
             <h2>My Profile</h2>
