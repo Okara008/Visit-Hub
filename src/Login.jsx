@@ -85,11 +85,11 @@ function Login() {
 
         <form className="login-form" onSubmit={handleSubmit}>
           <div className="input-group">
-            <label>Username or Email</label>
+            <label>Username</label>
             <input
               type="text"
               name="username"
-              placeholder="Enter your username or email"
+              placeholder="Enter your username"
               value={formData.username}
               onChange={handleChange}
             />
