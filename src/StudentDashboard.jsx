@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./StudentDashboard.css";
 import Navbar from "./NavbarStudent";
-import axios from "axios";
+import axios from 'axios';
 
 function StudentDashboard() {
   const [studentName, setStudentName] = useState("John Doe"); // mock name
