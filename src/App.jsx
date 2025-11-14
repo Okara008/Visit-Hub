@@ -28,7 +28,7 @@ function App(){
 			<Header/>
 
 			<Routes>
-				<Route path="/" element={<Login/>}/>
+				<Route path="/" element={<Login />} />
 				<Route path="/SignUpProfile" element={<SignUpProfile />} />
 				<Route path="/StudentEditProfile" element={<StudentEditProfile/>}/>
 				<Route path="/StudentPrepareRequest" element={<StudentPrepareRequest />} />
