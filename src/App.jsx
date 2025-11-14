@@ -1,4 +1,5 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 import Header from './Header.jsx'
 import Login from './Login.jsx'
 import SignUpProfile from './SignUpProfile.jsx'
@@ -22,12 +23,35 @@ import AdminProfile from './AdminProfile.jsx'
 import AdminFeedback from './AdminFeedback.jsx'
 import './EditProfile.css'
 
+// Component to handle 404.html redirect (query parameter routing)
+function RedirectHandler() {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Check if URL has the query parameter format from 404.html (?/path)
+    const searchParams = new URLSearchParams(location.search);
+    const pathFromQuery = searchParams.get('/');
+    
+    if (pathFromQuery) {
+      // Convert query parameter path to normal route
+      // Replace ~and~ back to & and ensure leading slash
+      const decodedPath = pathFromQuery.replace(/~and~/g, '&');
+      const normalizedPath = decodedPath.startsWith('/') ? decodedPath : '/' + decodedPath;
+      navigate(normalizedPath, { replace: true });
+    }
+  }, [location.search, navigate]);
+
+  return null;
+}
+
 function App(){
 	// Normalize base URL - remove trailing slash for React Router basename
 	const basename = import.meta.env.BASE_URL.replace(/\/$/, '') || '/';
 	
 	return(
 		<Router basename={basename}>
+			<RedirectHandler />
 			<Header/>
 
 			<Routes>
