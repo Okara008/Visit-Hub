@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "./SignUpProfile.css";
+import { useNavigate, Link } from "react-router-dom";
 
 
 function SignUpProfile() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     fullName: "",
     userName: "",
@@ -61,18 +63,15 @@ const handleSubmit = async (e) => {
 	
 			switch (true) {
 				case roleRadio[0].checked:
-					window.location.href = "/CompanyDashboard"
-					
+					navigate("/CompanyDashboard");
 					break;
 			
 				case roleRadio[1].checked:
-					window.location.href = "/AdminDashboard"
-					
+					navigate("/AdminDashboard");
 					break;
 			
 				case roleRadio[2].checked:
-					window.location.href = "/StudentDashboard"
-					
+					navigate("/StudentDashboard");
 					break;
 			
 				default:
@@ -188,7 +187,7 @@ const handleSubmit = async (e) => {
           </button>
 
           <p className="login-link">
-            Already have your account? <a href="./">Log In</a>
+            Already have your account? <Link to="/">Log In</Link>
           </p>
         </form>
 		<div className="data">role</div>

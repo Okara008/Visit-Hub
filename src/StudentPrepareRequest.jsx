@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "./StudentPrepareRequest.css";
 import Navbar from "./NavbarStudent";
+import { useNavigate } from "react-router-dom";
 
 function UserPrepareRequest() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     student_name: "",
     company: "",
@@ -173,7 +175,7 @@ function UserPrepareRequest() {
               <button
                 type="button"
                 className="cancel-btn"
-                onClick={() => (window.location.href = "/dashboard.html")}
+                onClick={() => navigate("/StudentDashboard")}
               >
                 Cancel
               </button>

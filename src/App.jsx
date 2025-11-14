@@ -23,11 +23,15 @@ import AdminFeedback from './AdminFeedback.jsx'
 import './EditProfile.css'
 
 function App(){
+	// Normalize base URL - remove trailing slash for React Router basename
+	const basename = import.meta.env.BASE_URL.replace(/\/$/, '') || '/';
+	
 	return(
-		<Router basename="/Visit-Hub">
+		<Router basename={basename}>
 			<Header/>
 
 			<Routes>
+				<Route index element={<Login />} />
 				<Route path="/" element={<Login />} />
 				<Route path="/SignUpProfile" element={<SignUpProfile />} />
 				<Route path="/StudentEditProfile" element={<StudentEditProfile/>}/>
