@@ -190,7 +190,7 @@ const handleSubmit = async (e) => {
             Already have your account? <Link to="/">Log In</Link>
           </p>
         </form>
-		<div className="data">role</div>
+
       </div>
   );
 }
