@@ -15,24 +15,24 @@ function Navbar(props) {
 	return (
     <div className="sidebar">
       <div className="menu">
-        <a className="menuLists" href="/StudentDashboard" >
+        <Link className="menuLists" to="/StudentDashboard" >
            <FontAwesomeIcon icon={faHouse} /> Dashboard
-        </a>
-        <a className="menuLists" href="/StudentPrepareRequest">
+        </Link>
+        <Link className="menuLists" to="/StudentPrepareRequest">
            <FontAwesomeIcon icon={faEnvelope} /> <span>Send Requests</span>
-        </a>
-        <a className="menuLists" href="/StudentFindCompany">
+        </Link>
+        <Link className="menuLists" to="/StudentFindCompany">
            <FontAwesomeIcon icon={faBuilding} /> <span>Find Companies</span>
-        </a>
-        <a className="menuLists" href="/StudentVisitsManagement">
+        </Link>
+        <Link className="menuLists" to="/StudentVisitsManagement">
            <FontAwesomeIcon icon={faMapLocationDot} /> <span>Visits History</span>
-        </a>
-        <a className="menuLists" href="/StudentEditProfile">
+        </Link>
+        <Link className="menuLists" to="/StudentEditProfile">
            <FontAwesomeIcon icon={faUser} /> <span>Profile</span>
-        </a>
-        <a className="menuLists" href="/StudentFeedback">
+        </Link>
+        <Link className="menuLists" to="/StudentFeedback">
            <FontAwesomeIcon icon={faComment} /> <span>Feedback</span>
-        </a>
+        </Link>
 
       </div>
     </div>

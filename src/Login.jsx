@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import "./Login.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 function Login() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -66,7 +67,7 @@ function Login() {
           localStorage.removeItem("rememberUser");
         }
 
-        window.location.href = "/EditProfile"     
+        navigate("/EditProfile");     
        } else {
         const err = await response.json();
         setError(err.detail || "Invalid username or password");
@@ -120,14 +121,12 @@ function Login() {
           {error && <p style={{ color: "red" }}>{error}</p>}
           {success && <p style={{ color: "green" }}>{success}</p>}
 
-          <a href="/EditProfile">
-            <button type="submit" className="login-btn" disabled={loading}>
-              {loading ? "Logging in..." : "LOGIN"}
-            </button>
-          </a>
+          <button type="submit" className="login-btn" disabled={loading}>
+            {loading ? "Logging in..." : "LOGIN"}
+          </button>
 
           <p className="signup-text">
-            Don’t have an account? <a href="./SignUpProfile">Sign Up</a>
+            Don't have an account? <Link to="/SignUpProfile">Sign Up</Link>
           </p>
         </form>
       </div>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './StudentVisitsManagement.css';
 import Navbar from "./NavbarStudent";
+import { Link } from 'react-router-dom';
 
 const StudentVisitsManagement = () => {
   const [visits, setVisits] = useState([]);
@@ -135,11 +136,11 @@ const StudentVisitsManagement = () => {
       <div className="container">
         <div className="header">
           <h1>My Visits</h1>
-          <a href="/StudentPrepareRequest">
+          <Link to="/StudentPrepareRequest">
             <button className="btn-new">
               + New Visit Request
             </button>
-          </a>
+          </Link>
         </div>
 
         <div className="table-section">

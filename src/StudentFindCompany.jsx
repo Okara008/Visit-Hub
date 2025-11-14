@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./StudentFindCompany.css";
 import Navbar from "./NavbarStudent";
+import { Link } from 'react-router-dom';
 
 const mockCompanies = [
   { id: 1, name: "TechNova Industries", industry: "Manufacturing", location: "Lagos", email: "info@technova.com" },
@@ -78,7 +79,7 @@ function FindCompany() {
                 <p><strong>Location:</strong> {company.location}</p>
                 <p><strong>Email:</strong> {company.email}</p>
               </div>
-              <a href="/StudentPrepareRequest" className="request-btn">Request Visit</a>
+              <Link to="/StudentPrepareRequest" className="request-btn">Request Visit</Link>
             </div>
           ))}
         </div>

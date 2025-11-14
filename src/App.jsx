@@ -24,7 +24,7 @@ import './EditProfile.css'
 
 function App(){
 	return(
-		<Router>
+		<Router basename="/Visit-Hub">
 			<Header/>
 
 			<Routes>

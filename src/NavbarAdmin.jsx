@@ -16,27 +16,27 @@ function Navbar(props) {
 	return (
     <div className="sidebar">
       <div className="menu">
-        <a className="menuLists" href="/AdminDashboard" >
+        <Link className="menuLists" to="/AdminDashboard" >
           <FontAwesomeIcon icon={faHouse}>🏠</FontAwesomeIcon> Dashboard
-        </a>
-        <a className="menuLists" href="/AdminUserList">
+        </Link>
+        <Link className="menuLists" to="/AdminUserList">
           <FontAwesomeIcon icon={faList}></FontAwesomeIcon> <span>Student List</span>
-        </a>
-        <a className="menuLists" href="/AdminCompanyList">
+        </Link>
+        <Link className="menuLists" to="/AdminCompanyList">
           <FontAwesomeIcon icon={faBuilding}/> <span>Company List</span>
-        </a>
-        <a className="menuLists" href="/AdminReport">
+        </Link>
+        <Link className="menuLists" to="/AdminReport">
           <FontAwesomeIcon icon={faBook}/>  <span>Report</span>  
-        </a>
-        <a className="menuLists" href="/AdminStudentRequest">
+        </Link>
+        <Link className="menuLists" to="/AdminStudentRequest">
           <FontAwesomeIcon icon={faEnvelope}/>  <span>Visit Requests</span>  
-        </a>
-        <a className="menuLists" href="/AdminProfile">
+        </Link>
+        <Link className="menuLists" to="/AdminProfile">
           <FontAwesomeIcon icon={faUser}/>  <span>Profile</span>  
-        </a>
-        <a className="menuLists" href="/AdminFeedback">
+        </Link>
+        <Link className="menuLists" to="/AdminFeedback">
            <FontAwesomeIcon icon={faComment} /> <span>Feedback</span>
-        </a>
+        </Link>
       </div>
     </div>
   );

@@ -19,21 +19,21 @@ function Navbar(props) {
 	return (
     <div className="sidebar">
       <div className="menu">
-        <a className="menuLists" href="/CompanyDashboard" >
+        <Link className="menuLists" to="/CompanyDashboard" >
           <FontAwesomeIcon icon={faHouse}/><span>Dashboard</span>
-        </a>
-        <a className="menuLists" href="/CompanyVisitManagement">
+        </Link>
+        <Link className="menuLists" to="/CompanyVisitManagement">
     			<FontAwesomeIcon icon={faList}/> <span>Visit Requests</span>
-        </a>
-        <a className="menuLists" href="/CompanyInstitution">
+        </Link>
+        <Link className="menuLists" to="/CompanyInstitution">
 		    	<FontAwesomeIcon icon={faBuilding}/> <span>Institution List</span>
-        </a>
-        <a className="menuLists" href="/CompanyReport">
+        </Link>
+        <Link className="menuLists" to="/CompanyReport">
 			    <FontAwesomeIcon icon={faBook}/> <span>Report</span> 
-        </a>
-        <a className="menuLists" href="/CompanyProfile">
+        </Link>
+        <Link className="menuLists" to="/CompanyProfile">
           <FontAwesomeIcon icon={faUser}/> <span>Profile</span> 
-        </a>
+        </Link>
         
 
       </div>
