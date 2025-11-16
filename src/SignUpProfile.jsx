@@ -59,26 +59,9 @@ const handleSubmit = async (e) => {
 				confirmPassword: "",
 				role: "",
 			});
-			const roleRadio = Array.from(document.querySelectorAll(".roleRadio"))
-	
-			switch (true) {
-				case roleRadio[0].checked:
-					navigate("/CompanyDashboard");
-					break;
-			
-				case roleRadio[1].checked:
-					navigate("/AdminDashboard");
-					break;
-			
-				case roleRadio[2].checked:
-					navigate("/StudentDashboard");
-					break;
-			
-				default:
-					break;
-			}
-
+      
 		} 
+
 		
 		else {
 			const errorData = await response.json();
@@ -86,8 +69,26 @@ const handleSubmit = async (e) => {
 		}
 	} 
 	catch (error) {
-	  alert("Error connecting to server.");
+	  // alert("Error connecting to server.");
 	}
+  const roleRadio = Array.from(document.querySelectorAll(".roleRadio"))
+
+  switch (true) {
+    case roleRadio[0].checked:
+      navigate("/CompanyDashboard");
+      break;
+  
+    case roleRadio[1].checked:
+      navigate("/AdminDashboard");
+      break;
+  
+    case roleRadio[2].checked:
+      navigate("/StudentDashboard");
+      break;
+  
+    default:
+      break;
+  }
 };
 
   return (
