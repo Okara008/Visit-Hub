@@ -4,5 +4,5 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  base: '/Visit-Hub/',  // ← IMPORTANT
+  base: '/',  // Root path for Netlify deployment
 })
