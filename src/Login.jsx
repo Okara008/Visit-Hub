@@ -4,17 +4,10 @@ import { useNavigate, Link } from "react-router-dom";
 
 function Login() {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    username: "",
-    password: "",
-  });
-
+  const [formData, setFormData] = useState({ username: "", password: "" });
   const [rememberMe, setRememberMe] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
 
-  // ✅ Load saved credentials on mount
   useEffect(() => {
     const savedUser = localStorage.getItem("rememberUser");
     if (savedUser) {
@@ -24,58 +17,34 @@ function Login() {
     }
   }, []);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setError("");
-    setSuccess("");
 
     if (!formData.username || !formData.password) {
       setError("Please fill in all fields");
       return;
     }
 
-    setLoading(true);
+    const users = JSON.parse(localStorage.getItem("users") || "[]");
+    const user = users.find(u => u.userName === formData.username && u.password === formData.password);
 
-    try {
-      const response = await fetch("http://127.0.0.1:8000/api/login/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-        credentials: "include",
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setSuccess("Login successful!");
-        console.log("Token or session info:", data);
-
-        if (data.token) {
-          localStorage.setItem("token", data.token);
-        }
-
-        // ✅ Save credentials if "Remember Me" checked
-        if (rememberMe) {
-          localStorage.setItem("rememberUser", JSON.stringify(formData));
-        } else {
-          localStorage.removeItem("rememberUser");
-        }
-
-        navigate("/EditProfile");     
-       } else {
-        const err = await response.json();
-        setError(err.detail || "Invalid username or password");
+    if (user) {
+      // Store current user in sessionStorage instead of localStorage
+      sessionStorage.setItem("currentUser", JSON.stringify(user));
+      
+      if (rememberMe) {
+        localStorage.setItem("rememberUser", JSON.stringify(formData));
+      } else {
+        localStorage.removeItem("rememberUser");
       }
-    } catch (error) {
-      setError("Server error: " + error.message);
-    } finally {
-      setLoading(false);
+
+      if (user.role === "admin") navigate("/AdminDashboard");
+      else if (user.role === "student") navigate("/StudentDashboard");
+      else if (user.role === "faculty") navigate("/CompanyDashboard");
+      else navigate("/EditProfile");
+    } else {
+      setError("Invalid username or password");
     }
   };
 
@@ -92,7 +61,7 @@ function Login() {
               name="username"
               placeholder="Enter your username"
               value={formData.username}
-              onChange={handleChange}
+              onChange={(e) => setFormData({...formData, username: e.target.value})}
             />
           </div>
 
@@ -103,7 +72,7 @@ function Login() {
               name="password"
               placeholder="Enter your password"
               value={formData.password}
-              onChange={handleChange}
+              onChange={(e) => setFormData({...formData, password: e.target.value})}
             />
           </div>
 
@@ -119,11 +88,8 @@ function Login() {
           </div>
 
           {error && <p style={{ color: "red" }}>{error}</p>}
-          {success && <p style={{ color: "green" }}>{success}</p>}
 
-          <button type="submit" className="login-btn" disabled={loading}>
-            {loading ? "Logging in..." : "LOGIN"}
-          </button>
+          <button type="submit" className="login-btn">LOGIN</button>
 
           <p className="signup-text">
             Don't have an account? <Link to="/SignUpProfile">Sign Up</Link>
