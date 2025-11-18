@@ -60,8 +60,8 @@
 
 /* --- Companies Table --- */
 .companies-table {
-    width: 100%;
     border-collapse: collapse;
+    width: max-content;
 }
 
 .table-th {
@@ -81,6 +81,13 @@
     color: #555;
 }
 
+td, th{
+    width: max-content;
+}
+
+section{
+    overflow-x: scroll;
+}
 .company-name-cell {
     font-weight: 500;
     color: #007bff;

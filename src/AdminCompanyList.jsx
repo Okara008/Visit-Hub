@@ -2,68 +2,43 @@ import React, { useState, useEffect } from 'react';
 import './AdminCompanyList.css'; 
 import Navbar from './NavbarAdmin'
 
-const mockCompanyList = [
-    { 
-        id: 1, 
-        companyName: 'Innovate Corp', 
-        contactEmail: 'john.doe@innovate.com', 
-        website: 'innovate.com',
-        contactNumber: '08029318273', 
-        LineOfBusiness: 'Manufacturing', 
-        status: 'Accepting Visits'
-    },
-    { 
-        id: 2, 
-        companyName: 'Tech Solutions', 
-        contactEmail: 'support@techsol.co', 
-        website: 'techsol.co',
-        contactNumber: '09027182716', 
-        LineOfBusiness: 'Electronics', 
-        status: 'Accepting Visits' 
-    },
-    { 
-        id: 3, 
-        companyName: 'Global Industries', 
-        contactEmail: 'contact@globalind.com', 
-        website: 'globalind.com',
-        contactNumber: '09029172615', 
-        LineOfBusiness: 'Manufacturing', 
-        status: 'Not Accepting Visits' 
-    },
-];
-
 const AdminCompanyList = () => {
     const [companyList, setCompanyList] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [showForm, setShowForm] = useState(false);
     const [formData, setFormData] = useState({ 
         companyName: '', 
         contactEmail: '', 
-        website: '', 
         contactNumber: '', 
-        LineOfBusiness: '' 
+        LineOfBusiness: '',
+        status: 'Accepting Visits'
     });
 
     useEffect(() => {
         fetchCompanies();
     }, []);
 
-    const fetchCompanies = async () => {
+    const fetchCompanies = () => {
         setLoading(true);
         try {
-            // Simulate API call
-            await new Promise(resolve => setTimeout(resolve, 500));
-            setCompanyList(mockCompanyList);
+            // Get companies from localStorage
+            const savedCompanies = JSON.parse(localStorage.getItem("allCompanies") || "[]");
+            setCompanyList(savedCompanies);
         } catch (error) {
             console.error("Error fetching data:", error);
-            setCompanyList(mockCompanyList);
+            setCompanyList([]);
         }
         setLoading(false);
     };
 
     const handleDelete = (id) => {
         if (window.confirm("Delete this company?")) {
-            setCompanyList(companyList.filter(company => company.id !== id));
+            // Remove from localStorage
+            const updatedCompanies = companyList.filter(company => company.id !== id);
+            localStorage.setItem("allCompanies", JSON.stringify(updatedCompanies));
+            
+            // Update state
+            setCompanyList(updatedCompanies);
         }
     };
 
@@ -72,8 +47,19 @@ const AdminCompanyList = () => {
             alert("Please fill required fields");
             return;
         }
-        setCompanyList([...companyList, { id: companyList.length + 1, ...formData }]);
-        setFormData({ companyName: '', contactEmail: '', website: '', contactNumber: '', LineOfBusiness: '' });
+
+        // Add to localStorage
+        const newCompany = { 
+            id: Date.now(), 
+            ...formData 
+        };
+        
+        const updatedCompanies = [...companyList, newCompany];
+        localStorage.setItem("allCompanies", JSON.stringify(updatedCompanies));
+        
+        // Update state
+        setCompanyList(updatedCompanies);
+        setFormData({ companyName: '', contactEmail: '', contactNumber: '', LineOfBusiness: '', status: 'Accepting Visits' });
         setShowForm(false);
     };
 
@@ -109,11 +95,6 @@ const AdminCompanyList = () => {
             )}
 
             <div className="company-list-card">
-                <h2>Manage Companies</h2>
-                
-                {loading ? (
-                    <p className="loading-message">Loading company list...</p>
-                ) : (
                     <section>
                         <table className="companies-table">
                             <thead>
@@ -121,24 +102,33 @@ const AdminCompanyList = () => {
                                     <th className="table-th">S/N</th>
                                     <th className="table-th">Company Name</th>
                                     <th className="table-th">Contact Email</th>
-                                    <th className="table-th">Website</th>
                                     <th className="table-th">Line Of Business</th>
                                     <th className="table-th">Contact Number</th>
+                                    <th className="table-th">Status</th>
                                     <th className="table-th">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {companyList.length > 0 ? (
-                                    companyList.map((company) => (
+                                    companyList.map((company, index) => (
                                         <tr key={company.id}>
-                                            <td className="table-td">{company.id}</td>
-                                            <td className="table-td company-name-cell">{company.companyName}</td>
-                                            <td className="table-td contact-email-cell">{company.contactEmail}</td>
-                                            <td className="table-td website-cell">
-                                                <a href={`http://${company.website}`} target="_blank" rel="noopener noreferrer">{company.website}</a>
+                                            <td className="table-td">{index + 1}</td>
+                                            <td className="table-td company-name-cell">{company.name || company.companyName}</td>
+                                            <td className="table-td contact-email-cell">{company.email || company.contactEmail}</td>
+                                            <td className="table-td contact-email-cell">{company.industry || company.LineOfBusiness}</td>
+                                            <td className="table-td contact-email-cell">{company.phone || company.contactNumber}</td>
+                                            <td className="table-td">
+                                                <span style={{
+                                                    padding: '4px 8px',
+                                                    borderRadius: '4px',
+                                                    fontSize: '12px',
+                                                    fontWeight: '500',
+                                                    background: company.status === 'Accepting Visits' ? '#d4edda' : '#f8d7da',
+                                                    color: company.status === 'Accepting Visits' ? '#155724' : '#721c24'
+                                                }}>
+                                                    {company.status || 'Accepting Visits'}
+                                                </span>
                                             </td>
-                                            <td className="table-td contact-email-cell">{company.LineOfBusiness}</td>
-                                            <td className="table-td contact-email-cell">{company.contactNumber}</td>
                                             <td className="table-td">
                                                 <button onClick={() => handleDelete(company.id)} style={{ background: '#dc3545', color: 'white', border: 'none', padding: '6px 12px', borderRadius: '4px', cursor: 'pointer' }}>
                                                     Delete
@@ -148,7 +138,7 @@ const AdminCompanyList = () => {
                                     ))
                                 ) : (
                                     <tr>
-                                        <td colSpan="7" className="table-td no-data-message">
+                                        <td colSpan="8" className="table-td no-data-message">
                                             No companies found.
                                         </td>
                                     </tr>
@@ -156,7 +146,6 @@ const AdminCompanyList = () => {
                             </tbody>
                         </table>
                     </section>
-                )}
             </div>
         </div>
     </>);

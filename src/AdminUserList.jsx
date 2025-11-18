@@ -2,57 +2,69 @@ import React, { useState, useEffect, useMemo } from 'react';
 import './AdminUserList.css'; 
 import Navbar from './NavbarAdmin';
 
-const mockUserList = [
-    { id: 1, fullName: 'Jane Doe', emailAddress: 'jane.doe@example.com', matNumber: "21/2182", department: 'Software Engineering', phoneNumber: '08028372432' },
-    { id: 2, fullName: 'Jane Crith', emailAddress: 'jane.crith@example.com', matNumber: "21/9208", department: 'Electrical Engineering', phoneNumber: '08028341243' },
-    { id: 3, fullName: 'John Smith', emailAddress: 'john.smith@example.com', matNumber: "24/2839", department: 'Mechanical Engineering', phoneNumber: '08028333467' },
-    { id: 4, fullName: 'Emily White', emailAddress: 'emily.white@example.com', matNumber: "21/3232", department: 'Civil Engineering', phoneNumber: '08028472532' },
-    { id: 5, fullName: 'Pomin White', emailAddress: 'pomin.white@example.com', matNumber: "18/2182", department: 'Aeronotic Engineering', phoneNumber: '08028442432' },
-    { id: 6, fullName: 'Admin User', emailAddress: 'admin.user@example.com', matNumber: "20/2812", department: 'Marine Engineering', phoneNumber: '08028373948' },
-];
-
 const AdminUserList = () => {
     const [userList, setUserList] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [showForm, setShowForm] = useState(false);
     const [formData, setFormData] = useState({ 
         fullName: '', 
-        emailAddress: '', 
-        matNumber: '', 
+        email: '', 
+        matric_number: '', 
         department: '', 
-        phoneNumber: '' 
+        phone: '',
+        role: 'student'
     });
 
     useEffect(() => {
         fetchUsers();
     }, []);
 
-    const fetchUsers = async () => {
+    const fetchUsers = () => {
         setLoading(true);
         try {
-            await new Promise(resolve => setTimeout(resolve, 500));
-            setUserList(mockUserList);
+            // Get users from localStorage and filter only students
+            const allUsers = JSON.parse(localStorage.getItem("users") || "[]");
+            const studentUsers = allUsers.filter(user => user.role === "student");
+            setUserList(studentUsers);
         } catch (error) {
             console.error("Error fetching data:", error);
-            setUserList(mockUserList);
+            setUserList([]);
         }
         setLoading(false);
     };
 
     const handleDelete = (id) => {
         if (window.confirm("Delete this user?")) {
+            // Remove from localStorage
+            const allUsers = JSON.parse(localStorage.getItem("users") || "[]");
+            const updatedUsers = allUsers.filter(user => user.id !== id);
+            localStorage.setItem("users", JSON.stringify(updatedUsers));
+            
+            // Update state
             setUserList(userList.filter(user => user.id !== id));
         }
     };
 
     const handleAdd = () => {
-        if (!formData.fullName || !formData.emailAddress) {
+        if (!formData.fullName || !formData.email) {
             alert("Please fill required fields");
             return;
         }
-        setUserList([...userList, { id: userList.length + 1, ...formData }]);
-        setFormData({ fullName: '', emailAddress: '', matNumber: '', department: '', phoneNumber: '' });
+
+        // Add to localStorage
+        const allUsers = JSON.parse(localStorage.getItem("users") || "[]");
+        const newUser = { 
+            id: Date.now(), 
+            ...formData 
+        };
+        
+        allUsers.push(newUser);
+        localStorage.setItem("users", JSON.stringify(allUsers));
+        
+        // Update state
+        setUserList([...userList, newUser]);
+        setFormData({ fullName: '', email: '', matric_number: '', department: '', phone: '', role: 'student' });
         setShowForm(false);
     };
 
@@ -61,10 +73,10 @@ const AdminUserList = () => {
         const lowerCaseQuery = searchQuery.toLowerCase();
         return userList.filter(user => 
             user.fullName.toLowerCase().includes(lowerCaseQuery) ||
-            user.emailAddress.toLowerCase().includes(lowerCaseQuery) ||
-            user.matNumber.toLowerCase().includes(lowerCaseQuery) ||
-            user.department.toLowerCase().includes(lowerCaseQuery) ||
-            user.phoneNumber.toLowerCase().includes(lowerCaseQuery) 
+            user.email.toLowerCase().includes(lowerCaseQuery) ||
+            (user.matric_number && user.matric_number.toLowerCase().includes(lowerCaseQuery)) ||
+            (user.department && user.department.toLowerCase().includes(lowerCaseQuery)) ||
+            (user.phone && user.phone.toLowerCase().includes(lowerCaseQuery))
         );
     }, [userList, searchQuery]);
 
@@ -72,21 +84,21 @@ const AdminUserList = () => {
         <Navbar index="1" person="admin"/>
         <div className="manage-users-container">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-                <h1 className="users-page-heading">Manage Users</h1>
+                <h1 className="users-page-heading">Manage Students</h1>
                 <button onClick={() => setShowForm(true)} style={{ background: '#28a745', color: 'white', border: 'none', padding: '10px 20px', borderRadius: '5px', cursor: 'pointer' }}>
-                    + Add User
+                    + Add Student
                 </button>
             </div>
 
             {showForm && (
                 <div style={{ background: '#f8f9fa', padding: '20px', borderRadius: '8px', marginBottom: '20px' }}>
-                    <h3 style={{ marginTop: 0 }}>Add New User</h3>
+                    <h3 style={{ marginTop: 0 }}>Add New Student</h3>
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '15px' }}>
                         <input type="text" placeholder="Full Name" value={formData.fullName} onChange={e => setFormData({...formData, fullName: e.target.value})} style={{ padding: '8px' }} />
-                        <input type="email" placeholder="Email Address" value={formData.emailAddress} onChange={e => setFormData({...formData, emailAddress: e.target.value})} style={{ padding: '8px' }} />
-                        <input type="text" placeholder="Matric Number" value={formData.matNumber} onChange={e => setFormData({...formData, matNumber: e.target.value})} style={{ padding: '8px' }} />
+                        <input type="email" placeholder="Email Address" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} style={{ padding: '8px' }} />
+                        <input type="text" placeholder="Matric Number" value={formData.matric_number} onChange={e => setFormData({...formData, matric_number: e.target.value})} style={{ padding: '8px' }} />
                         <input type="text" placeholder="Department" value={formData.department} onChange={e => setFormData({...formData, department: e.target.value})} style={{ padding: '8px' }} />
-                        <input type="text" placeholder="Phone Number" value={formData.phoneNumber} onChange={e => setFormData({...formData, phoneNumber: e.target.value})} style={{ padding: '8px' }} />
+                        <input type="text" placeholder="Phone Number" value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} style={{ padding: '8px' }} />
                     </div>
                     <div style={{ display: 'flex', gap: '10px' }}>
                         <button onClick={handleAdd} style={{ background: '#28a745', color: 'white', border: 'none', padding: '8px 16px', borderRadius: '4px', cursor: 'pointer' }}>
@@ -113,7 +125,7 @@ const AdminUserList = () => {
             </div>
 
             {loading ? (
-                <p>Loading user list...</p>
+                <p>Loading student list...</p>
             ) : (
                 <section>
                     <table className="users-table">
@@ -130,14 +142,14 @@ const AdminUserList = () => {
                         </thead>
                         <tbody>
                             {filteredUsers.length > 0 ? (
-                                filteredUsers.map((user) => (
+                                filteredUsers.map((user, index) => (
                                     <tr key={user.id}>
-                                        <td className="table-checkbox-cell">{user.id}</td>
+                                        <td className="table-checkbox-cell">{index + 1}</td>
                                         <td className="table-td">{user.fullName}</td>
-                                        <td className="table-td table-email-cell">{user.emailAddress}</td>
-                                        <td className="table-td">{user.matNumber}</td>
-                                        <td className="table-td">{user.department}</td>
-                                        <td className="table-td">{user.phoneNumber}</td>
+                                        <td className="table-td table-email-cell">{user.email}</td>
+                                        <td className="table-td">{user.matric_number || '-'}</td>
+                                        <td className="table-td">{user.department || '-'}</td>
+                                        <td className="table-td">{user.phone || '-'}</td>
                                         <td className="table-td">
                                             <button onClick={() => handleDelete(user.id)} style={{ background: '#dc3545', color: 'white', border: 'none', padding: '6px 12px', borderRadius: '4px', cursor: 'pointer' }}>
                                                 Delete
@@ -148,7 +160,7 @@ const AdminUserList = () => {
                             ) : (
                                 <tr>
                                     <td colSpan="7" className="table-td no-data-message">
-                                        No users found matching the search criteria.
+                                        No students found matching the search criteria.
                                     </td>
                                 </tr>
                             )}

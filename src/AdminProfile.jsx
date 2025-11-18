@@ -4,7 +4,6 @@ import Navbar from './NavbarAdmin.jsx'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faEnvelope , faBook, faBuilding, faUser, faList  } from '@fortawesome/free-solid-svg-icons';
 
-
 function AdminProfile() {
   const [isEditing, setIsEditing] = useState(false);
   const [profileData, setProfileData] = useState({
@@ -16,29 +15,12 @@ function AdminProfile() {
     password: "",
   });
 
-  // 🧠 Fetch user profile from Django
+  // 🧠 Fetch user profile from localStorage
   useEffect(() => {
-    async function fetchProfile() {
-      try {
-        const response = await fetch("http://127.0.0.1:8000/api/profile/", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
-        if (response.ok) {
-          const data = await response.json();
-          setProfileData(data);
-        } else {
-          console.error("Failed to fetch profile");
-        }
-      } catch (error) {
-        console.error("Error:", error);
-      }
+    const currentUser = JSON.parse(sessionStorage.getItem("currentUser"));
+    if (currentUser) {
+      setProfileData(currentUser);
     }
-
-    fetchProfile();
   }, []);
 
   // ✏️ Handle form changes
@@ -47,26 +29,24 @@ function AdminProfile() {
     setProfileData({ ...profileData, [name]: value });
   };
 
-  // 💾 Save updated profile to Django
-  const handleSave = async () => {
+  // 💾 Save updated profile to localStorage
+  const handleSave = () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/profile/update/", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        body: JSON.stringify(profileData),
-      });
-
-      if (response.ok) {
-        alert("Profile updated successfully!");
-        setIsEditing(false);
-      } else {
-        alert("Failed to update profile");
-      }
+      // Update current user in sessionStorage
+      sessionStorage.setItem("currentUser", JSON.stringify(profileData));
+      
+      // Update user in the main users list in localStorage
+      const users = JSON.parse(localStorage.getItem("users") || "[]");
+      const updatedUsers = users.map(user => 
+        user.userName === profileData.userName ? profileData : user
+      );
+      localStorage.setItem("users", JSON.stringify(updatedUsers));
+      
+      alert("Profile updated successfully!");
+      setIsEditing(false);
     } catch (error) {
       console.error("Error:", error);
+      alert("Failed to update profile");
     }
   };
 

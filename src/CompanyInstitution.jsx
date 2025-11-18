@@ -4,53 +4,11 @@ import "./CompanyInstitution.css";
 import axios from "axios";
 
 function CompanyInstitution() {
-  const [institutions, setInstitutions] = useState([
-    {
-      id: 1,
-      name: "University of Lagos",
-      location: "Lagos",
-      email: "info@unilag.edu.ng",
-      phone: "+234 810 234 5678",
-    },
-    {
-      id: 2,
-      name: "University of Nigeria Nsukka",
-      location: "Enugu",
-      email: "info@unn.edu.ng",
-      phone: "+234 809 456 7890",
-    },
-    {
-      id: 3,
-      name: "Federal University of Technology Akure",
-      location: "Ondo",
-      email: "contact@futa.edu.ng",
-      phone: "+234 703 222 3344",
-    },
-    {
-      id: 4,
-      name: "Obafemi Awolowo University",
-      location: "Ile-Ife",
-      email: "hello@oauife.edu.ng",
-      phone: "+234 816 556 7788",
-    },
-    {
-      id: 5,
-      name: "Covenant University",
-      location: "Ota",
-      email: "info@covenantuniversity.edu.ng",
-      phone: "+234 802 889 4433",
-    },
-  ]);
+  const [institutions, setInstitutions] = useState(JSON.parse(localStorage.getItem("allInstitutions")));
 
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({ name: "", location: "", email: "", phone: "" });
 
-  useEffect(() => {
-    axios
-      .get("http://127.0.0.1:8000/api/institutions/")
-      .then((res) => setInstitutions(res.data))
-      .catch(() => console.log("Using mock institution data"));
-  }, []);
 
   const handleDelete = (id) => {
     if (window.confirm("Delete this institution?")) {

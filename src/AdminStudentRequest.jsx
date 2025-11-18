@@ -2,56 +2,9 @@ import React, { useState, useEffect } from 'react';
 import './AdminStudentRequest.css'; 
 import Navbar from './NavbarAdmin';
 
-const mockVisitRequests = [
-    { 
-        id: 1, 
-        studentName: 'Jane Doe', 
-        studentEmail: 'jane.doe@example.com', 
-        institution: 'University of Lagos',
-        company: 'Tech Solutions Ltd',
-        visitDate: '2023-12-15',
-        purpose: 'Research project on AI implementation',
-        status: 'pending',
-        reply: ''
-    },
-    { 
-        id: 2, 
-        studentName: 'John Smith', 
-        studentEmail: 'john.smith@example.com', 
-        institution: 'Covenant University',
-        company: 'Innovate Corp',
-        visitDate: '2023-12-18',
-        purpose: 'Industrial training placement',
-        status: 'pending',
-        reply: ''
-    },
-    { 
-        id: 3, 
-        studentName: 'Emily White', 
-        studentEmail: 'emily.white@example.com', 
-        institution: 'University of Nigeria',
-        company: 'Global Industries',
-        visitDate: '2023-12-12',
-        purpose: 'Final year project data collection',
-        status: 'approved',
-        reply: 'Visit approved. Please bring your student ID.'
-    },
-    { 
-        id: 4, 
-        studentName: 'Michael Brown', 
-        studentEmail: 'michael.brown@example.com', 
-        institution: 'Federal University of Technology',
-        company: 'Digital Solutions',
-        visitDate: '2023-12-20',
-        purpose: 'Career exploration and networking',
-        status: 'rejected',
-        reply: 'Unfortunately, we cannot accommodate your visit at this time.'
-    },
-];
-
 const AdminStudentRequest = () => {
     const [visitRequests, setVisitRequests] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [showReplyForm, setShowReplyForm] = useState(null);
     const [replyMessage, setReplyMessage] = useState('');
 
@@ -59,42 +12,58 @@ const AdminStudentRequest = () => {
         fetchVisitRequests();
     }, []);
 
-    const fetchVisitRequests = async () => {
+    const fetchVisitRequests = () => {
         setLoading(true);
         try {
-            await new Promise(resolve => setTimeout(resolve, 500));
-            setVisitRequests(mockVisitRequests);
+            // Get visit requests from localStorage
+            const savedVisits = JSON.parse(localStorage.getItem("studentVisits") || "[]");
+            setVisitRequests(savedVisits);
         } catch (error) {
             console.error("Error fetching data:", error);
-            setVisitRequests(mockVisitRequests);
+            setVisitRequests([]);
         }
         setLoading(false);
     };
 
     const handleApprove = (id) => {
-        setVisitRequests(visitRequests.map(request => 
+        // Update in localStorage
+        const updatedVisits = visitRequests.map(request => 
             request.id === id ? { ...request, status: 'approved' } : request
-        ));
+        );
+        localStorage.setItem("studentVisits", JSON.stringify(updatedVisits));
+        
+        // Update state
+        setVisitRequests(updatedVisits);
     };
 
     const handleReject = (id) => {
         if (window.confirm("Reject this visit request?")) {
-            setVisitRequests(visitRequests.map(request => 
+            // Update in localStorage
+            const updatedVisits = visitRequests.map(request => 
                 request.id === id ? { ...request, status: 'rejected' } : request
-            ));
+            );
+            localStorage.setItem("studentVisits", JSON.stringify(updatedVisits));
+            
+            // Update state
+            setVisitRequests(updatedVisits);
         }
     };
 
     const handleReply = (id) => {
         setShowReplyForm(id);
         const request = visitRequests.find(req => req.id === id);
-        setReplyMessage(request.reply || '');
+        setReplyMessage(request.admin_reply || '');
     };
 
     const saveReply = (id) => {
-        setVisitRequests(visitRequests.map(request => 
-            request.id === id ? { ...request, reply: replyMessage } : request
-        ));
+        // Update in localStorage
+        const updatedVisits = visitRequests.map(request => 
+            request.id === id ? { ...request, admin_reply: replyMessage } : request
+        );
+        localStorage.setItem("studentVisits", JSON.stringify(updatedVisits));
+        
+        // Update state
+        setVisitRequests(updatedVisits);
         setShowReplyForm(null);
         setReplyMessage('');
     };
@@ -137,18 +106,18 @@ const AdminStudentRequest = () => {
                         </thead>
                         <tbody>
                             {visitRequests.length > 0 ? (
-                                visitRequests.map((request) => (
+                                visitRequests.map((request, index) => (
                                     <tr key={request.id}>
-                                        <td className="table-td">{request.id}</td>
+                                        <td className="table-td">{index + 1}</td>
                                         <td className="table-td">
                                             <div>
-                                                <div style={{ fontWeight: '500' }}>{request.studentName}</div>
-                                                <div style={{ fontSize: '12px', color: '#666' }}>{request.studentEmail}</div>
+                                                <div style={{ fontWeight: '500' }}>{request.student_name || 'Student'}</div>
+                                                <div style={{ fontSize: '12px', color: '#666' }}>{request.contact_email}</div>
                                             </div>
                                         </td>
-                                        <td className="table-td">{request.institution}</td>
-                                        <td className="table-td">{request.company}</td>
-                                        <td className="table-td">{formatDate(request.visitDate)}</td>
+                                        <td className="table-td">University</td>
+                                        <td className="table-td">{request.company_name}</td>
+                                        <td className="table-td">{formatDate(request.visit_date)}</td>
                                         <td className="table-td" style={{ maxWidth: '200px' }}>{request.purpose}</td>
                                         <td className="table-td">
                                             <span className={`status ${request.status}`}>
@@ -156,7 +125,7 @@ const AdminStudentRequest = () => {
                                             </span>
                                         </td>
                                         <td className="table-td" style={{ maxWidth: '200px', fontSize: '12px' }}>
-                                            {request.reply || 'No reply yet'}
+                                            {request.admin_reply || 'No reply yet'}
                                         </td>
                                         <td className="table-td">
                                             <div style={{ display: 'flex', gap: '5px', flexDirection: 'column' }}>
@@ -171,7 +140,7 @@ const AdminStudentRequest = () => {
                                                     </>
                                                 )}
                                                 <button onClick={() => handleReply(request.id)} style={{ background: '#007bff', color: 'white', border: 'none', padding: '6px 12px', borderRadius: '4px', cursor: 'pointer', fontSize: '12px' }}>
-                                                    {request.reply ? 'Edit Reply' : 'Add Reply'}
+                                                    {request.admin_reply ? 'Edit Reply' : 'Add Reply'}
                                                 </button>
                                             </div>
                                         </td>
