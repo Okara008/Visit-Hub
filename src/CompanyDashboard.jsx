@@ -1,98 +1,95 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import "./CompanyDashboard.css";
 import Navbar from "./NavbarCompany";
 
 function CompanyDashboard() {
-  const [companyName, setCompanyName] = useState("SkyReach Airlines");
-  const [requests, setRequests] = useState([
-    { id: 1, institution: "University of Lagos", date: "2024-11-15", status: "Pending" },
-    { id: 2, institution: "University of Nigeria Nsukka", date: "2024-11-16", status: "Pending" },
-    { id: 3, institution: "Federal University of Technology Akure", date: "2024-11-18", status: "Approved" },
-    { id: 4, institution: "Obafemi Awolowo University", date: "2024-11-19", status: "Rejected" },
-    { id: 5, institution: "Covenant University", date: "2024-11-20", status: "Completed" },
-  ]);
+  const [companyName, setCompanyName] = useState("");
+  const [totalInstitutions, setTotalInstitutions] = useState(0);
+  const [totalVisits, setTotalVisits] = useState(0);
+  const [avgStudentsPerVisit, setAvgStudentsPerVisit] = useState(0);
 
   useEffect(() => {
-    // Fetch data from Django backend
-    const fetchRequests = async () => {
+    const fetchData = () => {
       try {
-        const res = await axios.get("http://127.0.0.1:8000/api/staff-dashboard/");
-        setCompanyName(res.data.company_name || companyName);
-        setRequests(res.data.requests || requests);
-      } catch (err) {
-        console.log("Backend not connected. Using mock data.");
+        // Get current company user
+        const currentUser = JSON.parse(sessionStorage.getItem("currentUser") || '{}');
+        setCompanyName(currentUser.fullName || "Company");
+
+        // Get total institutions from allInstitution localStorage
+        const allInstitutions = JSON.parse(localStorage.getItem('allInstitutions') || '[]');
+        setTotalInstitutions(allInstitutions.length);
+
+        // Get visits data from institutionVisits localStorage
+        const institutionVisits = JSON.parse(localStorage.getItem('institutionVisits') || '{}');
+        
+        let total = 0;
+        let totalStudents = 0;
+
+        // Calculate visits statistics across all institutions
+        Object.values(institutionVisits).forEach(institutionArray => {
+          if (Array.isArray(institutionArray)) {
+            institutionArray.forEach(visit => {
+              if (visit.company === currentUser.fullName) {
+                total++;
+                totalStudents += Number(visit.students) || 0;
+              }
+            });
+          }
+        });
+
+        // Calculate average students per visit (regardless of status)
+        const avgStudents = total > 0 ? Math.round(totalStudents / total) : 0;
+
+        setTotalVisits(total);
+        setAvgStudentsPerVisit(avgStudents);
+
+      } catch (error) {
+        console.error("Error loading data:", error);
       }
     };
-    fetchRequests();
+
+    fetchData();
   }, []);
 
-  const handleAction = (id, action) => {
-    const updatedRequests = requests.map((req) =>
-      req.id === id ? { ...req, status: action === "approve" ? "Approved" : "Rejected" } : req
-    );
-    setRequests(updatedRequests);
-
-    // Send to Django backend
-    axios
-      .post("http://127.0.0.1:8000/api/handle-request/", {
-        id,
-        action,
-      })
-      .then((res) => console.log("Action saved:", res.data))
-      .catch(() => console.log("Mock mode - backend not active"));
-  };
-
   return (<>
-    <Navbar index="0"/>
+    <Navbar index="0" person="company"/>
     <div className="company-dashboard">
-      <h2>Welcome, {companyName}!</h2>
+      <h2 className="h2">Welcome, {companyName}!</h2>
 
-      <div className="tab-header">Pending Visit Requests</div>
+      {/* Stats Cards */}
+      <div className="stats-cards">
+        <div className="stat-card">
+          <div className="stat-icon">
+            <i className="fas fa-university"></i>
+          </div>
+          <div className="stat-content">
+            <h3>Total Institutions</h3>
+            <div className="stat-number">{totalInstitutions}</div>
+          </div>
+        </div>
 
-      <div className="request-table-container">
-        <table className="request-table">
-          <thead>
-            <tr>
-              <th>Institution</th>
-              <th>Proposed Date</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {requests.map((req) => (
-              <tr key={req.id}>
-                <td>{req.institution}</td>
-                <td>{req.date}</td>
-                <td>{req.status}</td>
-                <td>
-                  {req.status === "Pending" ? (
-                    <>
-                      <button
-                        className="approve-btn"
-                        onClick={() => handleAction(req.id, "approve")}
-                      >
-                        + Approve
-                      </button>
-                      <button
-                        className="reject-btn"
-                        onClick={() => handleAction(req.id, "reject")}
-                      >
-                        ✕ Reject
-                      </button>
-                    </>
-                  ) : (
-                    <span>{req.status}</span>
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <div className="stat-card">
+          <div className="stat-icon">
+            <i className="fas fa-calendar-check"></i>
+          </div>
+          <div className="stat-content">
+            <h3>Total Visits</h3>
+            <div className="stat-number">{totalVisits}</div>
+          </div>
+        </div>
+
+        <div className="stat-card">
+          <div className="stat-icon">
+            <i className="fas fa-users"></i>
+          </div>
+          <div className="stat-content">
+            <h3>Avg. Students/Visit</h3>
+            <div className="stat-number">{avgStudentsPerVisit}</div>
+          </div>
+        </div>
       </div>
     </div>
-  </> );
+  </>);
 }
 
 export default CompanyDashboard;

@@ -19,6 +19,7 @@ function FindCompany() {
   const compRequest = (index) => {
     index--;
     sessionStorage.setItem("selectedCompany", allCompanies[index].name)
+    
   }
   return (
     <>

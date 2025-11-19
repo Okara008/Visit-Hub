@@ -11,6 +11,8 @@ function UserPrepareRequest() {
     proposed_date: "",
     status: "pending",
     purpose: "",
+    fullName: "",
+    institution: "",
   });
   
   const [companies, setCompanies] = useState([]);
@@ -25,9 +27,9 @@ function UserPrepareRequest() {
     }
 
     // Get selected company name from sessionStorage
-    const currentCompany = sessionStorage.getItem("currentCompany");
-    if (currentCompany) {
-      setFormData(prev => ({ ...prev, company: currentCompany }));
+    const selectedCompany = sessionStorage.getItem("selectedCompany");
+    if (selectedCompany) {
+      setFormData(prev => ({ ...prev, company: selectedCompany }));
     }
 
     // Get companies from localStorage
@@ -64,7 +66,7 @@ function UserPrepareRequest() {
 
     // Get existing visits from localStorage
     const existingVisits = JSON.parse(localStorage.getItem("studentVisits"));
-    
+    const currentUser = JSON.parse(sessionStorage.getItem("currentUser"))
     // Create new visit object
     const newVisit = {
       id: Date.now(),
@@ -73,7 +75,9 @@ function UserPrepareRequest() {
       visit_date: formData.proposed_date,
       purpose: formData.purpose,
       status: formData.status,
-      admin_reply: ""
+      admin_reply: "",
+      institution: currentUser.institution,
+      fullName: currentUser.fullName
     };
 
     // Save to localStorage
@@ -91,7 +95,7 @@ function UserPrepareRequest() {
     }));
     
     // Clear the selected company from sessionStorage
-    sessionStorage.removeItem("currentCompany");
+    sessionStorage.removeItem("selectedCompany");
     
     setLoading(false);
     
@@ -169,7 +173,7 @@ function UserPrepareRequest() {
                 Cancel
               </button>
               <button type="submit" className="submit-btn" >
-                {loading ? "Submitting..." : "Submit Request"}
+                Submit Request
               </button>
             </div>
           </form>

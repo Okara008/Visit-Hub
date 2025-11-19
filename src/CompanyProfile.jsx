@@ -7,39 +7,21 @@ import {faUser} from '@fortawesome/free-solid-svg-icons';
 function CompanyProfile() {
   const [isEditing, setIsEditing] = useState(false);
   const [profileData, setProfileData] = useState({
-    companyName: "",
+    fullName: "",
     userName: "",
     lineOfBusiness: "",
     location: "",
-    website: "",
     email: "",
     phone: "",
     maxVisits: "",
   });
 
-  // 🧠 Fetch user profile from Django
+  // 🧠 Fetch user profile from localStorage
   useEffect(() => {
-    async function fetchProfile() {
-      try {
-        const response = await fetch("http://127.0.0.1:8000/api/profile/", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
-        if (response.ok) {
-          const data = await response.json();
-          setProfileData(data);
-        } else {
-          console.error("Failed to fetch profile");
-        }
-      } catch (error) {
-        console.error("Error:", error);
-      }
+    const currentUser = JSON.parse(sessionStorage.getItem("currentUser"));
+    if (currentUser) {
+      setProfileData(currentUser);
     }
-
-    fetchProfile();
   }, []);
 
   // ✏️ Handle form changes
@@ -48,27 +30,20 @@ function CompanyProfile() {
     setProfileData({ ...profileData, [name]: value });
   };
 
-  // 💾 Save updated profile to Django
-  const handleSave = async () => {
-    try {
-      const response = await fetch("http://127.0.0.1:8000/api/profile/update/", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        body: JSON.stringify(profileData),
-      });
-
-      if (response.ok) {
-        alert("Profile updated successfully!");
-        setIsEditing(false);
-      } else {
-        alert("Failed to update profile");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
+  // 💾 Save updated profile to localStorage
+  const handleSave = () => {
+    // Update current user in sessionStorage
+    sessionStorage.setItem("currentUser", JSON.stringify(profileData));
+    
+    // Update user in the main users list in localStorage
+    const users = JSON.parse(localStorage.getItem("users") || "[]");
+    const updatedUsers = users.map(user => 
+      user.userName === profileData.userName ? profileData : user
+    );
+    localStorage.setItem("users", JSON.stringify(updatedUsers));
+    
+    alert("Profile updated successfully!");
+    setIsEditing(false);
   };
 
   return (<>
@@ -79,7 +54,6 @@ function CompanyProfile() {
         <div className="headContainer">
             <div className="profile-avatar">
               <FontAwesomeIcon icon={faUser} className="avatar-circle"/>
-
             </div>
             
             <h2>My Profile</h2>
@@ -91,8 +65,8 @@ function CompanyProfile() {
                 <label>Company Name:</label>
                 <input
                   type="text"
-                  name="companyName"
-                  value={profileData.companyName}
+                  name="fullName"
+                  value={profileData.fullName}
                   onChange={handleChange}
                   disabled={!isEditing}
                 />
@@ -124,16 +98,6 @@ function CompanyProfile() {
                   type="text"
                   name="location"
                   value={profileData.location}
-                  onChange={handleChange}
-                  disabled={!isEditing}
-                />
-              </div>
-              <div className="form-row">
-                <label>Website:</label>
-                <input
-                  type="text"
-                  name="website"
-                  value={profileData.website}
                   onChange={handleChange}
                   disabled={!isEditing}
                 />

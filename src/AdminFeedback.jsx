@@ -21,7 +21,10 @@ function AdminFeedback() {
     setLoading(true);
     try {
       // Get feedbacks from localStorage
-      const savedFeedbacks = JSON.parse(localStorage.getItem("studentFeedback") || "[]");
+      let savedFeedbacks = JSON.parse(localStorage.getItem("studentFeedback") || "[]");
+      savedFeedbacks = savedFeedbacks.filter(
+        feedBack => feedBack.institution === currentUser.institution
+      );
       setFeedbacks(savedFeedbacks);
       
       // Get companies from localStorage

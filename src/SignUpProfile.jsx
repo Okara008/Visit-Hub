@@ -50,8 +50,9 @@ function SignUpProfile() {
 
       const newUser = { id: Date.now(), ...formData };
       existingUsers.push(newUser);
+      sessionStorage.setItem("currentUser", JSON.stringify(newUser));
       localStorage.setItem("users", JSON.stringify(existingUsers));
-      
+
       alert("Account created successfully!");
       setFormData({
         fullName: "", userName: "", email: "", phone: "", institution: "",

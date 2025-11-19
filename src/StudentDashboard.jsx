@@ -1,40 +1,55 @@
 import React, { useEffect, useState } from "react";
 import "./StudentDashboard.css";
 import Navbar from "./NavbarStudent";
-import axios from 'axios';
 
 function StudentDashboard() {
-  const [studentName, setStudentName] = useState("John Doe"); // mock name
-  const [visits, setVisits] = useState([
-    { id: 1, company: "TechNova Industries", status: "Pending", date: "2024-10-26" },
-    { id: 2, company: "SkyReach Airlines", status: "Approved", date: "2024-09-15" },
-    { id: 3, company: "Medilife Health Ltd", status: "Completed", date: "2024-08-01" },
-    { id: 4, company: "Softwave Systems", status: "Pending", date: "2024-11-03" },
-    { id: 5, company: "SteelPro Manufacturing", status: "Completed", date: "2024-07-10" },
-  ]);
+  const [studentName, setStudentName] = useState("Student");
+  const [upcomingVisit, setUpcomingVisit] = useState(null);
+  const [stats, setStats] = useState({
+    pending: 0,
+    approved: 0,
+    completed: 0
+  });
 
   useEffect(() => {
-    // Fetch name and visits from backend (Django)
-    const fetchDashboardData = async () => {
-      try {
-        const res = await axios.get("http://127.0.0.1:8000/api/dashboard/");
-        setStudentName(res.data.student_name || studentName);
-        setVisits(res.data.visits || visits);
-      } catch (err) {
-        console.log("Backend not connected, using mock data.");
-      }
-    };
+    // Get data from localStorage
+    const currentUser = JSON.parse(sessionStorage.getItem("currentUser"));
+    if (currentUser) {
+      setStudentName(currentUser.fullName);
+    }
 
-    fetchDashboardData();
+    let visits = JSON.parse(localStorage.getItem("studentVisits") || "[]");
+    visits = visits.filter(
+      visit => visit.fullName === currentUser.fullName
+    );
+    // Calculate stats
+    const pending = visits.filter(v => v.status === "pending").length;
+    const approved = visits.filter(v => v.status === "approved").length;
+    const completed = visits.filter(v => v.status === "completed").length;
+    
+    setStats({ pending, approved, completed });
+
+    // Get next upcoming visit (approved status, closest future date)
+    const today = new Date();
+    const approvedVisits = visits.filter(v => v.status === "approved" ||  v.status === "pending")
+    
+    if (approvedVisits.length > 0) {
+      // Sort by date and find the closest future visit
+      const futureVisits = approvedVisits
+        .filter(v => new Date(v.visit_date) >= today)
+        .sort((a, b) => new Date(a.visit_date) - new Date(b.visit_date));
+      
+      setUpcomingVisit(futureVisits[0] || null);
+    }
   }, []);
 
-  // Count visits by status
-  const pendingVisits = visits.filter(v => v.status === "Pending").length;
-  const approvedVisits = visits.filter(v => v.status === "Approved").length;
-  const completedVisits = visits.filter(v => v.status === "Completed").length;
-
-  // Get upcoming visits (pending and approved)
-  const upcomingVisits = visits.filter(v => v.status === "Completed");
+  const formatDate = (dateString) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    });
+  };
 
   return (
     <>
@@ -50,7 +65,7 @@ function StudentDashboard() {
             </div>
             <div className="stat-content">
               <h3>Pending Visits</h3>
-              <div className="stat-number">{pendingVisits}</div>
+              <div className="stat-number">{stats.pending}</div>
             </div>
           </div>
 
@@ -60,7 +75,7 @@ function StudentDashboard() {
             </div>
             <div className="stat-content">
               <h3>Approved Visits</h3>
-              <div className="stat-number">{approvedVisits}</div>
+              <div className="stat-number">{stats.approved}</div>
             </div>
           </div>
 
@@ -70,27 +85,29 @@ function StudentDashboard() {
             </div>
             <div className="stat-content">
               <h3>Completed Visits</h3>
-              <div className="stat-number">{completedVisits}</div>
+              <div className="stat-number">{stats.completed}</div>
             </div>
           </div>
         </div>
 
         {/* Upcoming Visits Section */}
         <div className="upcoming-visits">
-          <h3 className="visitH3">Upcoming Visit</h3>
+          <h3 className="visitH3">Next Upcoming Visit</h3>
           <div className="visit-cards">
-            {upcomingVisits.length > 0 ? (
-              upcomingVisits.map((visit) => (
-                <div key={visit.id} className={`visit-card ${visit.status.toLowerCase()}`}>
-                  <div className="visit-header">
-                    <h4>{visit.company}</h4>
-                  </div>
-                  <div className="visit-date">
-                    <i className="fas fa-calendar-alt"></i>
-                    {visit.date}
-                  </div>
+            {upcomingVisit ? (
+              <div className="visit-card approved">
+                <div className="visit-header">
+                  <h4>{upcomingVisit.company_name}</h4>
+                  <span className="status-badge approved">{upcomingVisit.status}</span>
                 </div>
-              ))
+                <div className="visit-date">
+                  <i className="fas fa-calendar-alt"></i>
+                  {formatDate(upcomingVisit.visit_date)}
+                </div>
+                <div className="visit-purpose">
+                  <p>{upcomingVisit.purpose}</p>
+                </div>
+              </div>
             ) : (
               <p className="no-visits">No upcoming visits scheduled.</p>
             )}

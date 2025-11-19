@@ -1,18 +1,29 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import "./Navbar.css";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHouse, faEnvelope, faMapLocationDot , faBook, faBuilding, faUser, faComment } from '@fortawesome/free-solid-svg-icons';
+import { faHouse, faEnvelope, faMapLocationDot , faBook, faBuilding, faUser, faComment, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 
 function Navbar(props) {
-	useEffect(getList, [])
-	function getList() {
-		const menuLists = Array.from(document.querySelectorAll(".menuLists"));
+  const navigate = useNavigate();
+
+  useEffect(getList, [])
+  function getList() {
+    const menuLists = Array.from(document.querySelectorAll(".menuLists"));
     const index = props.index || 0;
     menuLists[index].classList.add("activeMenu");
-	}
+  }
 
-	return (
+  const handleSignOut = () => {
+    // Clear session storage
+    sessionStorage.removeItem("currentUser");
+    		alert("Sign out successful")
+
+    // Navigate to login page
+    navigate("/");
+  };
+
+  return (
     <div className="sidebar">
       <div className="menu">
         <Link className="menuLists" to="/StudentDashboard" >
@@ -34,6 +45,10 @@ function Navbar(props) {
            <FontAwesomeIcon icon={faComment} /> <span>Feedback</span>
         </Link>
 
+        {/* Sign Out Button */}
+        <button className="signout-btn" onClick={handleSignOut}>
+          <FontAwesomeIcon icon={faRightFromBracket} />Sign Out
+        </button>
       </div>
     </div>
   );

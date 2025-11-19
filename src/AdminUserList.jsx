@@ -24,8 +24,15 @@ const AdminUserList = () => {
         setLoading(true);
         try {
             // Get users from localStorage and filter only students
-            const allUsers = JSON.parse(localStorage.getItem("users") || "[]");
-            const studentUsers = allUsers.filter(user => user.role === "student");
+            let allUsers = JSON.parse(localStorage.getItem("users") || "[]");
+            const currentUser = JSON.parse(sessionStorage.getItem("currentUser"))
+            // const studentUsers = allUsers.filter(user => user.role === "student");
+             const studentUsers  = allUsers.filter(
+                user => user.role === 'student' && user.institution === currentUser.institution
+            );
+            console.log(allUsers);
+            console.log(currentUser);
+            
             setUserList(studentUsers);
         } catch (error) {
             console.error("Error fetching data:", error);

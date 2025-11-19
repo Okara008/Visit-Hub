@@ -16,7 +16,12 @@ const AdminStudentRequest = () => {
         setLoading(true);
         try {
             // Get visit requests from localStorage
-            const savedVisits = JSON.parse(localStorage.getItem("studentVisits") || "[]");
+            let savedVisits = JSON.parse(localStorage.getItem("studentVisits") || "[]");
+            const currentUser = JSON.parse(sessionStorage.getItem('currentUser') || '{}');
+
+            savedVisits = savedVisits.filter(
+                visit => visit.institution === currentUser.institution
+            );
             setVisitRequests(savedVisits);
         } catch (error) {
             console.error("Error fetching data:", error);

@@ -138,6 +138,29 @@
   display: block;
 }
 
+.status-badge {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.status-badge.approved {
+  background: #d4edda;
+  color: #155724;
+}
+
+.visit-purpose {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #eee;
+}
+
+.visit-purpose p {
+  margin: 0;
+  color: #666;
+  font-size: 14px;
+}
 /* Mobile */
 @media (max-width: 768px) {
   .stats-cards, .action-cards {

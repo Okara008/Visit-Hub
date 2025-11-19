@@ -10,9 +10,9 @@
   background: #fff;
 }
 
-h2 {
+.h2 {
   font-size: 1.8rem;
-  margin-bottom: 1rem;
+  margin-bottom: 3rem;
 }
 
 .tab-header {

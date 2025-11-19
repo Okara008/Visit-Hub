@@ -1,12 +1,14 @@
-.feedback-container {
-      width: calc(100% - 16rem);
+.company-reports {
+  min-height: 100vh;
+
+    width: calc(100% - 16rem);
   background: #fff;
-  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  padding: 40px 50px;
   margin-left: 15rem;
   margin-top: 6rem;
-  border-radius: 20px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);}
-
+}
 .feedbacks-table-section {
   margin-top: 30px;
 }

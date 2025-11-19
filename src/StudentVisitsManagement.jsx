@@ -5,24 +5,54 @@ import { Link } from 'react-router-dom';
 
 const StudentVisitsManagement = () => {
   const [visits, setVisits] = useState([]);
-  const [loading, setLoading] = useState(false);
 
   // Load visits from localStorage on component mount
   useEffect(() => {
-    const savedVisits = localStorage.getItem('studentVisits');
+    let savedVisits = JSON.parse(localStorage.getItem('studentVisits'));
+    let currentUser = JSON.parse(sessionStorage.getItem("currentUser"))
+    savedVisits = savedVisits.filter(
+      visit => visit.fullName === currentUser.fullName
+    );
+    
     if (savedVisits) {
-      setVisits(JSON.parse(savedVisits));
+      setVisits(savedVisits);
     }
+
   }, []);
 
+  // ✅ ADD THIS useEffect TO CHECK AND UPDATE STATUS BASED ON DATE
+  useEffect(() => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Reset time to compare dates only
+
+    const updatedVisits = visits.map(visit => {
+      const visitDate = new Date(visit.visit_date);
+      visitDate.setHours(0, 0, 0, 0);
+
+      // If visit is approved and date has passed, mark as completed
+      if (visit.status === 'approved' && visitDate < today) {
+        return { ...visit, status: 'completed' };
+      }
+      return visit;
+    });
+
+    // Only update if there are changes
+    const hasChanges = JSON.stringify(updatedVisits) !== JSON.stringify(visits);
+    if (hasChanges) {
+      setVisits(updatedVisits);
+      localStorage.setItem('studentVisits', JSON.stringify(updatedVisits));
+    }
+  }, [visits]); // Run this effect whenever visits change
 
   const handleCancelVisit = (visitId) => {
     if (!window.confirm('Are you sure you want to cancel this visit?')) {
       return;
     }
-    setVisits(visits.map(visit => 
+    const updatedVisits = visits.map(visit => 
       visit.id === visitId ? { ...visit, status: 'cancelled' } : visit
-    ));
+    );
+    setVisits(updatedVisits);
+    localStorage.setItem('studentVisits', JSON.stringify(updatedVisits));
   };
 
   const formatDate = (dateString) => {

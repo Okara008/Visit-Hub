@@ -2,102 +2,111 @@ import React, { useState, useEffect } from 'react';
 import './CompanyVisitManagement.css';
 import Navbar from "./NavbarCompany";
 
-
 const CompanyVisitManagement = () => {
-  const [visits, setVisits] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [groupedVisits, setGroupedVisits] = useState([]);
+  const [companyName, setCompanyName] = useState('');
 
-  // Mock data for company visit requests
-  const mockVisitsData = [
-    {
-      id: 1,
-      institution: 'University of Technology',
-      contact: 'Dr. Sarah Johnson',
-      email: 's.johnson@utech.edu',
-      visit_date: '2023-12-15',
-      purpose: 'Research Collaboration',
-      students: 15,
-      status: 'pending'
-    },
-    {
-      id: 2,
-      institution: 'State College',
-      contact: 'Prof. Michael Chen',
-      email: 'm.chen@statecollege.edu',
-      visit_date: '2023-12-18',
-      purpose: 'Technical Workshop',
-      students: 25,
-      status: 'pending'
-    },
-    {
-      id: 3,
-      institution: 'Institute of Science',
-      contact: 'Dr. Emily Davis',
-      email: 'e.davis@scienceinstitute.edu',
-      visit_date: '2023-12-12',
-      purpose: 'Factory Tour',
-      students: 20,
-      status: 'approved'
-    },
-    {
-      id: 4,
-      institution: 'Metropolitan University',
-      contact: 'Dr. Lisa Thompson',
-      email: 'l.thompson@metro.edu',
-      visit_date: '2023-12-05',
-      purpose: 'Studio Tour',
-      students: 18,
-      status: 'completed'
-    }
-  ];
-
-  // Simulate API fetch
   useEffect(() => {
-    const fetchVisits = async () => {
-      await new Promise(resolve => setTimeout(resolve, 500));
-      const sortedVisits = [...mockVisitsData].sort((a, b) => 
-        new Date(b.visit_date) - new Date(a.visit_date)
-      );
-      setVisits(sortedVisits);
-      setLoading(false);
+    const fetchVisits = () => {
+      try {
+        const currentUser = JSON.parse(sessionStorage.getItem("currentUser"));
+
+        // Get institutionVisits from localStorage - now it's an object
+        const institutionVisitsObj = JSON.parse(localStorage.getItem('institutionVisits') || '{}');
+        
+        // Get visits for current user's company from ALL institutions
+        let companyVisits = [];
+        
+        // Loop through all institutions and collect visits for this company
+        Object.values(institutionVisitsObj).forEach(institutionVisits => {
+          if (Array.isArray(institutionVisits)) {
+            const filteredVisits = institutionVisits.filter(visit => 
+              visit.company === currentUser.fullName
+            );
+            companyVisits = [...companyVisits, ...filteredVisits];
+          }
+        });
+
+        // Group visits by institution and calculate total students
+        const grouped = {};
+        companyVisits.forEach(visit => {
+          if (!grouped[visit.institution]) {
+            grouped[visit.institution] = {
+              institution: visit.institution,
+              totalStudents: 0,
+              status: visit.status,
+              date: visit.date
+            };
+          }
+          // Add the students count
+          grouped[visit.institution].totalStudents += Number(visit.students);
+        });
+
+        // Convert to array
+        const groupedArray = Object.values(grouped);
+        setGroupedVisits(groupedArray);
+        
+        // Set company name
+        if (currentUser) {
+          setCompanyName(currentUser.fullName);
+        }
+      } catch (error) {
+        console.error("Error loading data:", error);
+      }
     };
 
     fetchVisits();
   }, []);
 
-  const handleApprove = async (visitId) => {
-    setLoading(true);
-    await new Promise(resolve => setTimeout(resolve, 200));
-    setVisits(visits.map(v => v.id === visitId ? { ...v, status: 'approved' } : v));
-    setLoading(false);
+  const handleApprove = (institution) => {
+    // Update institutionVisits in localStorage
+    const institutionVisitsObj = JSON.parse(localStorage.getItem('institutionVisits') || '{}');
+    
+    // Update visits for this institution
+    const updatedInstitutionVisits = { ...institutionVisitsObj };
+    if (updatedInstitutionVisits[institution]) {
+      updatedInstitutionVisits[institution] = updatedInstitutionVisits[institution].map(visit =>
+        visit.company === companyName ? { ...visit, status: 'approved' } : visit
+      );
+    }
+    
+    localStorage.setItem('institutionVisits', JSON.stringify(updatedInstitutionVisits));
+    
+    // Update local state
+    setGroupedVisits(prev => prev.map(group => 
+      group.institution === institution ? { ...group, status: 'approved' } : group
+    ));
   };
 
-  const handleReject = async (visitId) => {
-    if (!window.confirm('Reject this visit request?')) return;
-    setLoading(true);
-    await new Promise(resolve => setTimeout(resolve, 200));
-    setVisits(visits.map(v => v.id === visitId ? { ...v, status: 'rejected' } : v));
-    setLoading(false);
+  const handleReject = (institution) => {
+    if (!window.confirm(`Reject all visits from ${institution}?`)) return;
+    
+    // Update institutionVisits in localStorage
+    const institutionVisitsObj = JSON.parse(localStorage.getItem('institutionVisits') || '{}');
+    
+    // Update visits for this institution
+    const updatedInstitutionVisits = { ...institutionVisitsObj };
+    if (updatedInstitutionVisits[institution]) {
+      updatedInstitutionVisits[institution] = updatedInstitutionVisits[institution].map(visit =>
+        visit.company === companyName ? { ...visit, status: 'rejected' } : visit
+      );
+    }
+    
+    localStorage.setItem('institutionVisits', JSON.stringify(updatedInstitutionVisits));
+    
+    setGroupedVisits(prev => prev.map(group => 
+      group.institution === institution ? { ...group, status: 'rejected' } : group
+    ));
   };
-
-  if (loading) {
-    return (
-      <div className="company-visit">
-        <div className="container">
-          <div className="loading">Loading...</div>
-        </div>
-      </div>
-    );
-  }
 
   return (<>
-    <Navbar index="1"/>
+    <Navbar index="1" person="company"/>
     <div className="company-visit">
       <div className="container">
         <div className="header">
-          <h1>Visit Requests</h1>
+          <h1>Visit Requests - {companyName}</h1>
           <div className="stats">
-            <span>{visits.filter(v => v.status === 'pending').length} pending</span>
+            <span>{groupedVisits.filter(v => v.status === 'pending').length} pending</span>
           </div>
         </div>
 
@@ -106,40 +115,34 @@ const CompanyVisitManagement = () => {
             <thead>
               <tr>
                 <th>Institution</th>
-                <th>Contact</th>
-                <th>Date</th>
-                <th>Purpose</th>
-                <th>Students</th>
+                <th>Total Students</th>
                 <th>Status</th>
                 <th>Action</th>
               </tr>
             </thead>
             <tbody>
-              {visits.map(visit => (
-                <tr key={visit.id}>
-                  <td>{visit.institution}</td>
-                  <td>{visit.contact}</td>
-                  <td>{visit.visit_date}</td>
-                  <td>{visit.purpose}</td>
-                  <td>{visit.students}</td>
+              {groupedVisits.map((group, index) => (
+                <tr key={index}>
+                  <td>{group.institution}</td>
+                  <td>{group.totalStudents}</td>
                   <td>
-                    <span className={`status ${visit.status}`}>
-                      {visit.status}
+                    <span className={`status ${group.status}`}>
+                      {group.status}
                     </span>
                   </td>
                   <td>
-                    {visit.status === 'pending' && (
+                    {group.status === 'pending' && (
                       <div className="actions">
-                        <button className="approve" onClick={() => handleApprove(visit.id)}>
+                        <button className="approve" onClick={() => handleApprove(group.institution)}>
                           Accept
                         </button>
-                        <button className="reject" onClick={() => handleReject(visit.id)}>
+                        <button className="reject" onClick={() => handleReject(group.institution)}>
                           Reject
                         </button>
                       </div>
                     )}
-                    {visit.status !== 'pending' && (
-                      <span className="final-status">{visit.status}</span>
+                    {group.status !== 'pending' && (
+                      <span className="final-status">{group.status}</span>
                     )}
                   </td>
                 </tr>
