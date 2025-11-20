@@ -4,7 +4,6 @@ import Navbar from './NavbarAdmin';
 
 const AdminStudentRequest = () => {
     const [visitRequests, setVisitRequests] = useState([]);
-    const [loading, setLoading] = useState(false);
     const [showReplyForm, setShowReplyForm] = useState(null);
     const [replyMessage, setReplyMessage] = useState('');
 
@@ -13,21 +12,20 @@ const AdminStudentRequest = () => {
     }, []);
 
     const fetchVisitRequests = () => {
-        setLoading(true);
         try {
-            // Get visit requests from localStorage
             let savedVisits = JSON.parse(localStorage.getItem("studentVisits") || "[]");
             const currentUser = JSON.parse(sessionStorage.getItem('currentUser') || '{}');
 
-            savedVisits = savedVisits.filter(
+            // Filter to get ALL visits for current user's institution
+            const filteredVisits = savedVisits.filter(
                 visit => visit.institution === currentUser.institution
             );
-            setVisitRequests(savedVisits);
+            
+            setVisitRequests(filteredVisits); // Set the filtered ARRAY
         } catch (error) {
             console.error("Error fetching data:", error);
             setVisitRequests([]);
         }
-        setLoading(false);
     };
 
     const handleApprove = (id) => {
@@ -91,9 +89,6 @@ const AdminStudentRequest = () => {
                 </div>
             </div>
 
-            {loading ? (
-                <p>Loading visit requests...</p>
-            ) : (
                 <section>
                     <table className="visits-table">
                         <thead>
@@ -161,7 +156,6 @@ const AdminStudentRequest = () => {
                         </tbody>
                     </table>
                 </section>
-            )}
 
             {/* Reply Form Modal */}
             {showReplyForm && (

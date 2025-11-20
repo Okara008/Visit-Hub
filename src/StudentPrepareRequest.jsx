@@ -16,7 +16,6 @@ function UserPrepareRequest() {
   });
   
   const [companies, setCompanies] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   
   // Get current user from sessionStorage and companies from localStorage
@@ -50,7 +49,6 @@ function UserPrepareRequest() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setLoading(true);
     setMessage("");
 
     // Validate date is in the future
@@ -60,7 +58,6 @@ function UserPrepareRequest() {
 
     if (selectedDate <= today) {
       setMessage("Please select a future date ❌");
-      setLoading(false);
       return;
     }
 
@@ -97,7 +94,6 @@ function UserPrepareRequest() {
     // Clear the selected company from sessionStorage
     sessionStorage.removeItem("selectedCompany");
     
-    setLoading(false);
     
     // Navigate back after success
     // setTimeout(() => navigate("/StudentVisitsManagement"), 1000);

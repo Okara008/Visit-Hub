@@ -10,46 +10,44 @@ const CompanyVisitManagement = () => {
     const fetchVisits = () => {
       try {
         const currentUser = JSON.parse(sessionStorage.getItem("currentUser"));
+        const currentCompanyName = currentUser.fullName;
+        setCompanyName(currentCompanyName);
 
-        // Get institutionVisits from localStorage - now it's an object
-        const institutionVisitsObj = JSON.parse(localStorage.getItem('institutionVisits') || '{}');
+        // Get or create companyVisits from localStorage
+        let companyVisitsObj = JSON.parse(localStorage.getItem('companyVisits') || '{}');
         
-        // Get visits for current user's company from ALL institutions
-        let companyVisits = [];
-        
-        // Loop through all institutions and collect visits for this company
-        Object.values(institutionVisitsObj).forEach(institutionVisits => {
-          if (Array.isArray(institutionVisits)) {
-            const filteredVisits = institutionVisits.filter(visit => 
-              visit.company === currentUser.fullName
-            );
-            companyVisits = [...companyVisits, ...filteredVisits];
-          }
-        });
+        // If company doesn't exist in companyVisits, create it from institutionVisits
+        // if (!companyVisitsObj[currentCompanyName]) {
+          companyVisitsObj[currentCompanyName] = [];
+          
+          // Get institutionVisits and process them
+          const institutionVisitsObj = JSON.parse(localStorage.getItem('institutionVisits') || '{}');
+          
+          // Loop through all institutions and extract visits for this company
+          Object.keys(institutionVisitsObj).forEach(institution => {
+            const institutionData = institutionVisitsObj[institution];
+            
+            for (let i = 0; i < institutionData.length; i++) {
+              if (institutionData[i] && institutionData[i].company === currentCompanyName) {
+                // Create company visit entry
+                companyVisitsObj[currentCompanyName].push({
+                  institution: institution,
+                  approvedStudents: institutionData[i].visits, // Start with 0
+                  companyStatus: institutionData.companyStatus || 'pending'
+                });
+              }
+              
+            }
+          });
+          // Save the new companyVisits structure
+          localStorage.setItem('companyVisits', JSON.stringify(companyVisitsObj));
+        // }
 
-        // Group visits by institution and calculate total students
-        const grouped = {};
-        companyVisits.forEach(visit => {
-          if (!grouped[visit.institution]) {
-            grouped[visit.institution] = {
-              institution: visit.institution,
-              totalStudents: 0,
-              status: visit.status,
-              date: visit.date
-            };
-          }
-          // Add the students count
-          grouped[visit.institution].totalStudents += Number(visit.students);
-        });
+        // Get visits for current company
+        const companyVisits = companyVisitsObj[currentCompanyName] || [];
 
-        // Convert to array
-        const groupedArray = Object.values(grouped);
-        setGroupedVisits(groupedArray);
+        setGroupedVisits(companyVisits);
         
-        // Set company name
-        if (currentUser) {
-          setCompanyName(currentUser.fullName);
-        }
       } catch (error) {
         console.error("Error loading data:", error);
       }
@@ -59,43 +57,58 @@ const CompanyVisitManagement = () => {
   }, []);
 
   const handleApprove = (institution) => {
-    // Update institutionVisits in localStorage
-    const institutionVisitsObj = JSON.parse(localStorage.getItem('institutionVisits') || '{}');
+    // Update companyVisits in localStorage
+    let companyVisitsObj = JSON.parse(localStorage.getItem('companyVisits') || '{}');
     
-    // Update visits for this institution
-    const updatedInstitutionVisits = { ...institutionVisitsObj };
-    if (updatedInstitutionVisits[institution]) {
-      updatedInstitutionVisits[institution] = updatedInstitutionVisits[institution].map(visit =>
-        visit.company === companyName ? { ...visit, status: 'approved' } : visit
-      );
+    if (companyVisitsObj[companyName]) {
+      for (let i = 0; i < companyVisitsObj[companyName].length; i++) {
+        const visit = companyVisitsObj[companyName][i];
+        if(visit.institution === institution){
+          console.log(visit.institution, institution );
+           companyVisitsObj[companyName] = { 
+              ...visit, 
+              companyStatus: 'approved',
+            } 
+        } 
+        
+      }
     }
     
-    localStorage.setItem('institutionVisits', JSON.stringify(updatedInstitutionVisits));
+    localStorage.setItem('companyVisits', JSON.stringify(companyVisitsObj));
     
     // Update local state
     setGroupedVisits(prev => prev.map(group => 
-      group.institution === institution ? { ...group, status: 'approved' } : group
+      group.institution === institution 
+        ? { 
+            ...group, 
+            companyStatus: 'approved',
+          } 
+        : group
     ));
+    
   };
 
   const handleReject = (institution) => {
-    if (!window.confirm(`Reject all visits from ${institution}?`)) return;
+    if (!window.confirm(`Reject all pending visits from ${institution}?`)) return;
     
-    // Update institutionVisits in localStorage
-    const institutionVisitsObj = JSON.parse(localStorage.getItem('institutionVisits') || '{}');
+    // Update companyVisits in localStorage
+    let companyVisitsObj = JSON.parse(localStorage.getItem('companyVisits') || '{}');
     
-    // Update visits for this institution
-    const updatedInstitutionVisits = { ...institutionVisitsObj };
-    if (updatedInstitutionVisits[institution]) {
-      updatedInstitutionVisits[institution] = updatedInstitutionVisits[institution].map(visit =>
-        visit.company === companyName ? { ...visit, status: 'rejected' } : visit
+    if (companyVisitsObj[companyName]) {
+      companyVisitsObj[companyName] = companyVisitsObj[companyName].map(visit =>
+        visit.institution === institution 
+          ? { ...visit, companyStatus: 'rejected' } 
+          : visit
       );
     }
     
-    localStorage.setItem('institutionVisits', JSON.stringify(updatedInstitutionVisits));
+    localStorage.setItem('companyVisits', JSON.stringify(companyVisitsObj));
     
+    // Update local state
     setGroupedVisits(prev => prev.map(group => 
-      group.institution === institution ? { ...group, status: 'rejected' } : group
+      group.institution === institution 
+        ? { ...group, companyStatus: 'rejected' } 
+        : group
     ));
   };
 
@@ -106,7 +119,7 @@ const CompanyVisitManagement = () => {
         <div className="header">
           <h1>Visit Requests - {companyName}</h1>
           <div className="stats">
-            <span>{groupedVisits.filter(v => v.status === 'pending').length} pending</span>
+            <span>{groupedVisits.filter(v => v.companyStatus === 'pending').length} pending</span>
           </div>
         </div>
 
@@ -115,7 +128,7 @@ const CompanyVisitManagement = () => {
             <thead>
               <tr>
                 <th>Institution</th>
-                <th>Total Students</th>
+                <th>Approved Students</th>
                 <th>Status</th>
                 <th>Action</th>
               </tr>
@@ -124,28 +137,35 @@ const CompanyVisitManagement = () => {
               {groupedVisits.map((group, index) => (
                 <tr key={index}>
                   <td>{group.institution}</td>
-                  <td>{group.totalStudents}</td>
+                  <td>{group.approvedStudents}</td>
                   <td>
-                    <span className={`status ${group.status}`}>
-                      {group.status}
+                    <span className={`status ${group.companyStatus}`}>
+                      {group.companyStatus}
                     </span>
                   </td>
-                  <td>
-                    {group.status === 'pending' && (
-                      <div className="actions">
-                        <button className="approve" onClick={() => handleApprove(group.institution)}>
-                          Accept
-                        </button>
-                        <button className="reject" onClick={() => handleReject(group.institution)}>
-                          Reject
-                        </button>
-                      </div>
-                    )}
-                    {group.status !== 'pending' && (
-                      <span className="final-status">{group.status}</span>
-                    )}
-                  </td>
-                </tr>
+              <td>
+                {group.companyStatus === 'pending' && (
+                  <div className="actions">
+                    <button className="approve" onClick={() => handleApprove(group.institution)}>
+                      Accept
+                    </button>
+                    <button className="reject" onClick={() => handleReject(group.institution)}>
+                      Reject
+                    </button>
+                  </div>
+                )}
+                {group.companyStatus !== 'pending' && (
+                  <div className="actions">
+                    <button className="approve" disabled>
+                      Accept
+                    </button>
+                    <button className="reject" disabled>
+                      Reject
+                    </button>
+                  </div>
+                )}
+              </td>               
+            </tr>
               ))}
             </tbody>
           </table>
