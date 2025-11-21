@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import "./Navbar.css";
 import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHouse, faEnvelope , faBook, faBuilding, faUser, faList, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+import { faHouse, faComment , faBook, faBuilding, faUser, faList, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 
 
 function Navbar(props) {
@@ -41,7 +41,9 @@ function Navbar(props) {
         <Link className="menuLists" to="/CompanyProfile">
           <FontAwesomeIcon icon={faUser}/> <span>Profile</span> 
         </Link>
-        
+        <Link className="menuLists" to="/CompanyAdminFeedback">
+			<FontAwesomeIcon icon={faComment} /> <span>Feedback</span>
+		</Link>
 		<button className="signout-btn" onClick={handleSignOut}>
 			<FontAwesomeIcon icon={faRightFromBracket} />Sign Out
 		</button>

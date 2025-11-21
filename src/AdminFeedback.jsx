@@ -6,6 +6,7 @@ function AdminFeedback() {
   const [feedbacks, setFeedbacks] = useState([]);
   const [companies, setCompanies] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null); 
   const [formData, setFormData] = useState({
     company: "",
     rating: "",
@@ -14,21 +15,41 @@ function AdminFeedback() {
   const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    try {
+      const user = JSON.parse(sessionStorage.getItem("currentUser"));
+      setCurrentUser(user);
+    } catch (error) {
+      console.error("Error loading current user:", error);
+    }
+  }, []); 
+
+  useEffect(() => {
+      if (currentUser) {
+          fetchData();
+      }
+  }, [currentUser]);
+
 
   const fetchData = () => {
     setLoading(true);
     try {
-      // Get feedbacks from localStorage
+      const currentInstitutionName = currentUser?.institution;
+
+      // --- 1. Get Student Feedbacks for the table from "studentFeedback" ---
       let savedFeedbacks = JSON.parse(localStorage.getItem("studentFeedback") || "[]");
-      savedFeedbacks = savedFeedbacks.filter(
-        feedBack => feedBack.institution === currentUser.institution
-      );
-      setFeedbacks(savedFeedbacks);
       
-      // Get companies from localStorage
-      const savedCompanies = JSON.parse(localStorage.getItem("companies") || "[]");
+      // Filter feedbacks to only show SUBMISSIONS MADE BY STUDENTS for THIS Institution.
+      // We explicitly exclude entries tagged as "Admin" (which are now saved in a separate key anyway, 
+      // but this filter ensures no legacy Admin data shows up here).
+      const studentFeedbacks = savedFeedbacks.filter(
+        (feedBack) => 
+            feedBack.institution === currentInstitutionName &&
+            feedBack.reviewer !== "Admin" 
+      );
+      setFeedbacks(studentFeedbacks);
+      
+      // --- 2. Get Companies ---
+      const savedCompanies = JSON.parse(localStorage.getItem("allCompanies") || "[]"); // Assuming "allCompanies" is the key
       setCompanies(savedCompanies);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -46,35 +67,45 @@ function AdminFeedback() {
     });
   };
 
-  // Handle form submit
+  // Handle form submit (Admin submits official feedback)
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    // Get existing feedbacks from localStorage
-    const existingFeedbacks = JSON.parse(localStorage.getItem("studentFeedback") || "[]");
+    if (!currentUser || !currentUser.institution) {
+        alert("Cannot submit feedback. Institution information is missing.");
+        return;
+    }
+
+    // *** CORRECTION: Get and save feedback to the new "adminFeedback" key ***
+    const existingAdminFeedbacks = JSON.parse(localStorage.getItem("adminFeedback") || "[]");
     
-    // Create new feedback object
     const newFeedback = {
-      id: Date.now(),
-      ...formData,
+      id: Date.now(), 
+      company: formData.company,
+      rating: formData.rating,
+      feedback: formData.feedback,
       date: new Date().toISOString().split('T')[0],
-      reviewer: "Admin"
+      institution: currentUser.institution, 
+      // Keep the reviewer tag for clarity and company-side filtering
+      reviewer: "Admin" 
     };
 
-    // Save to localStorage
-    existingFeedbacks.push(newFeedback);
-    localStorage.setItem("studentFeedback", JSON.stringify(existingFeedbacks));
+    // Save the institutional feedback to the dedicated "adminFeedback" key
+    existingAdminFeedbacks.push(newFeedback);
+    localStorage.setItem("adminFeedback", JSON.stringify(existingAdminFeedbacks));
+    // *** END CORRECTION ***
     
-    // Update state
-    setFeedbacks(existingFeedbacks);
+    // Update the student feedback table data (which is fetched from "studentFeedback")
+    fetchData();
+    
     setFormData({ company: "", rating: "", feedback: "" });
     setSubmitted(true);
     
-    // Reset success message after 3 seconds
     setTimeout(() => setSubmitted(false), 3000);
   };
 
   const formatDate = (dateString) => {
+    if (!dateString) return 'N/A';
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'short',
@@ -90,26 +121,38 @@ function AdminFeedback() {
       '2': '⭐⭐',
       '1': '⭐'
     };
-    return stars[rating] || rating;
+    return stars[String(rating)] || rating;
   };
 
   const getCompanyInfo = (companyName) => {
-    const company = companies.find(c => c.name === companyName);
-    return company || { name: companyName, industry: 'Unknown' };
+    const company = companies.find(c => c.name === companyName); 
+    return company || { name: companyName, industry: 'Unknown' }; 
   };
+  
+  if (!currentUser) {
+      return (
+          <>
+            <Navbar index="6" />
+            <div className="feedback-container" style={{ textAlign: 'center', padding: '50px' }}>
+                <p>Loading user session...</p>
+            </div>
+          </>
+      );
+  }
+
 
   return (
     <>
       <Navbar index="6" />
       <div className="feedback-container">
-        <h2>Company Feedback</h2>
-        <p>Provide feedback about companies and view all students feedback submissions.</p>
+        <h2>Company Feedback - Admin ({currentUser.institution})</h2>
+        <p>Submit official institutional feedback and view all student submissions.</p>
 
-        {/* Feedback Form */}
+        {/* Feedback Form (Admin Submission) */}
         <div className="feedback-form-section">
-          <h3>Submit Company Feedback</h3>
+          <h3>Submit Official Institutional Feedback</h3>
           {submitted && (
-            <div className="success-msg">✅ Thank you! Your feedback has been submitted.</div>
+            <div className="success-msg">✅ Thank you! Your institutional feedback has been submitted (Saved to **adminFeedback**).</div>
           )}
           <form className="feedback-form" onSubmit={handleSubmit}>
             <label>
@@ -151,7 +194,7 @@ function AdminFeedback() {
                 name="feedback"
                 value={formData.feedback}
                 onChange={handleChange}
-                placeholder="Write your feedback about the company..."
+                placeholder="Write your official feedback about the company..."
                 required
               ></textarea>
             </label>
@@ -160,9 +203,9 @@ function AdminFeedback() {
           </form>
         </div>
 
-        {/* Feedbacks Table */}
+        {/* Feedbacks Table (View Student Submissions) */}
         <div className="feedbacks-table-section">
-          <h3>All Students Feedbacks</h3>
+          <h3>Student Feedbacks Collected by {currentUser.institution}</h3>
           {loading ? (
             <p>Loading feedbacks...</p>
           ) : (
@@ -200,7 +243,7 @@ function AdminFeedback() {
                   ) : (
                     <tr>
                       <td colSpan="6" className="table-td no-data-message">
-                        No admin feedback submissions found.
+                        No student feedback submissions found for {currentUser.institution}.
                       </td>
                     </tr>
                   )}

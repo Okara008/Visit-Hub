@@ -21,6 +21,7 @@ import CompanyVisitManagement from './CompanyVisitManagement.jsx'
 import AdminStudentRequest from './AdminStudentRequest.jsx'
 import AdminProfile from './AdminProfile.jsx'
 import AdminFeedback from './AdminFeedback.jsx'
+import CompanyAdminFeedback from './CompanyAdminFeedback.jsx'
 import './EditProfile.css'
 
 // Component to handle 404.html redirect (query parameter routing)
@@ -76,6 +77,7 @@ function App(){
 				<Route path="/AdminStudentRequest" element={<AdminStudentRequest />} />
 				<Route path="/AdminProfile" element={<AdminProfile />} />
 				<Route path="/AdminFeedback" element={<AdminFeedback />} />
+				<Route path="/CompanyAdminFeedback" element={<CompanyAdminFeedback />} />
 			</Routes>
 		</Router>
 	)
