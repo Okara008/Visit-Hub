@@ -3,15 +3,14 @@
     padding: 30px;
     background-color: #f8f9fa;
     min-height: 100vh;
-
     height: fit-content;
     width: calc(100% - 16rem);
-  margin-left: 15rem;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-  padding: 2rem;
-  margin-top: 6rem;
-  border-radius: 20px;
-  background: #fff;
+    margin-left: 15rem;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    margin-top: 6rem;
+    border-radius: 20px;
+    background: #fff;
 }
 
 .users-page-heading {
@@ -179,4 +178,25 @@ th{
 
 section{
     overflow: auto;
+}
+
+@media (max-width: 768px) {
+    .manage-users-container {
+        width: 100%;
+        margin: 4.5rem 0.5rem 1rem;
+        padding: 1.5rem;
+    }
+
+    .users-actions-bar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .filter-and-search-area {
+        grid-template-columns: 1fr;
+    }
+
+    section {
+        margin-top: 1rem;
+    }
 }

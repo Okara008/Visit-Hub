@@ -1,15 +1,14 @@
 .sidebar {
   width: 220px;
-  height: 28rem;
+  min-height: 28rem;
   background-color: #1f2937;
   color: #fff;
   display: flex;
   flex-direction: column;
   border-radius: 1rem;
   /* margin-top: 1rem; */
-  position: absolute;
-  padding-top: 2rem;
   position: fixed;
+  padding-top: 2rem;
 
   /* margin-top: 5rem; */
 }
@@ -78,11 +77,32 @@
 	align-items: center;
 	justify-content: center;
 	gap: 8px;
-	transition: all 0.3s ease
+	transition: all 0.3s ease;
 }
 
 @media print{
     .sidebar{
         display: none;
     }
+}
+
+/* Mobile layout: stack sidebar above content */
+@media (max-width: 768px) {
+  .sidebar {
+    position: static;
+    width: 100%;
+    min-height: auto;
+    margin-top: 4.5rem; /* leave space for fixed header */
+    margin-bottom: 1rem;
+    border-radius: 0.75rem;
+  }
+
+  .menu a {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.9rem;
+  }
+
+  .signout-btn {
+    width: 95%;
+  }
 }

@@ -2,14 +2,13 @@
   padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
-      width: calc(100% - 16rem);
+  width: calc(100% - 16rem);
   background: #fff;
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.1);
   padding: 40px 50px;
   margin-left: 15rem;
   margin-top: 6rem;
-
 }
 
 .adminh1 {
@@ -158,6 +157,12 @@
 
 /* Mobile */
 @media (max-width: 768px) {
+    .dashboard {
+        width: 100%;
+        margin: 4.5rem 0.5rem 1rem;
+        padding: 1.5rem;
+    }
+
     .stats-cards, .action-cards {
         flex-direction: column;
     }

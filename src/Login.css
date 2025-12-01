@@ -90,3 +90,25 @@
 .signup-text a:hover {
   text-decoration: underline;
 }
+
+@media (max-width: 768px) {
+  .login-box {
+    margin: 5rem 0.5rem 1rem;
+    padding: 2rem 1.5rem;
+    border-radius: 1rem;
+  }
+
+  .input-group {
+    width: 100%;
+  }
+
+  .remember-section {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+
+  .login-btn {
+    width: 100%;
+  }
+}

@@ -157,7 +157,7 @@ const CompanyVisitManagement = () => {
             </div>
           </div>
 
-          <div className="table-container">
+          <section className="table-container">
             <table>
               <thead>
                 <tr>
@@ -241,7 +241,7 @@ const CompanyVisitManagement = () => {
                 )}
               </tbody>
             </table>
-          </div>
+          </section>
         </div>
       </div>
     </>

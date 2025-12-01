@@ -1,5 +1,5 @@
 .manage-visits-container {
-      width: calc(100% - 16rem);
+  width: calc(100% - 16rem);
   background: #fff;
   padding: 2rem;
   margin-left: 15rem;
@@ -70,4 +70,16 @@ td, th{
 
 section{
     overflow-x: auto;
+}
+
+@media (max-width: 768px) {
+  .manage-visits-container {
+    width: 100%;
+    margin: 4.5rem 0.5rem 1rem;
+    padding: 1.5rem;
+  }
+
+  .visits-table {
+    min-width: 700px;
+  }
 }

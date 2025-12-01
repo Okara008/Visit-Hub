@@ -76,7 +76,7 @@ const StudentVisitsManagement = () => {
           </Link>
         </div>
 
-        <div className="table-section">
+        <section className="table-section">
           <table>
             <thead>
               <tr>
@@ -140,7 +140,7 @@ const StudentVisitsManagement = () => {
               )}
             </tbody>
           </table>
-        </div>
+        </section>
       </div>
     </div>
   </>);

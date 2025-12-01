@@ -25,13 +25,14 @@ p {
 .institution-table-container {
   background: #fff;
   border-radius: 12px;
-  overflow: hidden;
+  overflow-x: auto;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .institution-table {
   width: 100%;
   border-collapse: collapse;
+  min-width: 600px;
 }
 
 .institution-table th,

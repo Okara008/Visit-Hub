@@ -1,10 +1,9 @@
 .company-dashboard {
   padding: 2rem;
   height: fit-content;
-    width: calc(100% - 16rem);
+  width: calc(100% - 16rem);
   margin-left: 15rem;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-  padding: 2rem;
   margin-top: 6rem;
   border-radius: 20px;
   background: #fff;
@@ -74,4 +73,20 @@
 
 .reject-btn:hover {
   background-color: #c82333;
+}
+
+@media (max-width: 768px) {
+  .company-dashboard {
+    width: 100%;
+    margin: 4.5rem 0.5rem 1rem;
+    padding: 1.5rem;
+  }
+
+  .request-table-container {
+    overflow-x: auto;
+  }
+
+  .request-table {
+    min-width: 700px;
+  }
 }

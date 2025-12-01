@@ -72,3 +72,44 @@
   font-style: italic;
   padding: 40px !important;
 }
+
+@media (max-width: 768px) {
+  .feedback-container {
+    width: 100%;
+    margin: 4.5rem 0.5rem 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
+    background: #fff;
+  }
+
+  .feedback-form-section {
+    margin-bottom: 1.5rem;
+  }
+
+  .feedback-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .feedback-form label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    font-size: 0.9rem;
+  }
+
+  .feedback-form select,
+  .feedback-form textarea {
+    width: 100%;
+  }
+
+  .submit-btn {
+    width: 100%;
+  }
+
+  .feedbacks-table-section h3 {
+    font-size: 1rem;
+  }
+}

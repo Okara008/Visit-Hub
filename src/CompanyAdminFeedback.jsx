@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-// import "./CompanyAdminFeedback.css"; // You'll need to create this CSS file
+import "./CompanyAdminFeedback.css";
 import Navbar from "./NavbarCompany";
 
 function CompanyAdminFeedback() {
@@ -66,9 +66,9 @@ function CompanyAdminFeedback() {
   };
 
   return (
-    <>
-      <Navbar index="5" />
-      <div className="company-reportsn">
+    <>      
+      <Navbar index="5"/>
+      <div className="company-feedback-container">
         <h2>Institutional Feedback Received - {companyName}</h2>
         <p>Review the official feedback submitted by Admin Institutions regarding your company.</p>
 
@@ -94,8 +94,7 @@ function CompanyAdminFeedback() {
                     adminFeedbacks.map((feedback, index) => (
                       <tr key={feedback.id}>
                         <td className="table-td">{index + 1}</td>
-                        {/* The institution field was added in the Admin component */}
-                        <td className="table-td">**{feedback.institution}**</td> 
+                        <td className="table-td">{feedback.institution}</td> 
                         <td className="table-td">
                           <span title={`Rating: ${feedback.rating}/5`}>
                             {getRatingStars(feedback.rating)}

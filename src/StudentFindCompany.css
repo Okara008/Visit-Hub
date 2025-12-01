@@ -100,3 +100,15 @@
 .request-btn:hover {
   background: #005f86;
 }
+
+@media (max-width: 768px) {
+  .find-company {
+    width: 100%;
+    margin: 4.5rem 0.5rem 1rem;
+    padding: 1.5rem;
+  }
+
+  .searchBarContainer {
+    margin-bottom: 1.5rem;
+  }
+}

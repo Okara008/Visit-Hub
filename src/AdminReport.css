@@ -56,11 +56,11 @@
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 8px
+    gap: 8px;
 }
 
 .export-button:hover {
-    background-color: #0056b3;
+    background-color: #218838;
 }
 
 /* --- Table Styles --- */
@@ -71,6 +71,7 @@
     border-radius: 6px;
     overflow: hidden;
     box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    min-width: 600px;
 }
 
 .reports-table thead {
@@ -111,6 +112,14 @@
 }
 .dot-fade-2 {
     opacity: 0.2;
+}
+
+@media (max-width: 768px) {
+    .reports-container {
+        width: 100%;
+        margin: 4.5rem 0.5rem 1rem;
+        padding: 1.5rem;
+    }
 }
 
 @media print{

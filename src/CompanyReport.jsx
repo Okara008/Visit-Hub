@@ -111,7 +111,7 @@ function CompanyReport() {
             Export to Excel
           </button>
         </div>
-        <div className="report-table-container">
+        <section className="report-table-container">
           <table className="report-table">
             <thead>
               <tr>
@@ -138,7 +138,7 @@ function CompanyReport() {
               )}
             </tbody>
           </table>
-        </div>
+        </section>
       </div>
     </>
   );

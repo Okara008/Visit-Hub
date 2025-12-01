@@ -60,7 +60,7 @@ function CompanyInstitution() {
           </div>
         )}
 
-        <div className="institution-table-container">
+        <section className="institution-table-container">
           <table className="institution-table">
             <thead>
               <tr>
@@ -89,7 +89,7 @@ function CompanyInstitution() {
               ))}
             </tbody>
           </table>
-        </div>
+        </section>
       </div>
     </>
   );

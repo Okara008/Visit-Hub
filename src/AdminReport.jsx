@@ -108,30 +108,32 @@ const CompanyReports = () => {
                 />
             </div>
 
-            <table className="reports-table">
-                <thead>
-                    <tr>
-                        <th className="table-th">Company Name</th>
-                        <th className="table-th">Number of Students</th>
-                        <th className="table-th">Visits Approved</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {filteredReports.length > 0 ? (
-                        filteredReports.map((report) => (
-                            <tr key={report.id}>
-                                <td className="table-td">{report.company}</td>
-                                <td className="table-td">{report.students}</td>
-                                <td className="table-td">{report.visits}</td>
-                            </tr>
-                        ))
-                    ) : (
+            <section style={{ overflowX: 'auto' }}>
+                <table className="reports-table">
+                    <thead>
                         <tr>
-                            <td colSpan="3" className="table-td">No reports found.</td>
+                            <th className="table-th">Company Name</th>
+                            <th className="table-th">Number of Students</th>
+                            <th className="table-th">Visits Approved</th>
                         </tr>
-                    )}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {filteredReports.length > 0 ? (
+                            filteredReports.map((report) => (
+                                <tr key={report.id}>
+                                    <td className="table-td">{report.company}</td>
+                                    <td className="table-td">{report.students}</td>
+                                    <td className="table-td">{report.visits}</td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan="3" className="table-td">No reports found.</td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
+            </section>
         </div>
     </>);
 };
